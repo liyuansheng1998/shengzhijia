@@ -11,26 +11,7 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
         }
-        /* 退出按钮样式 */
-        .logout-btn {
-            position: fixed;
-            top: 100px;
-            right: 20px;
-            padding: 10px 20px;
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 500;
-            z-index: 9999;
-            transition: background-color 0.3s ease;
-        }
         
-        .logout-btn:hover {
-            background-color: #c0392b;
-        }
 
         html {
             scroll-behavior: smooth;
@@ -1107,18 +1088,7 @@
                 return;
             }
             
-            // 创建退出登录按钮
-            const logoutBtn = document.createElement('button');
-            logoutBtn.className = 'logout-btn';
-            logoutBtn.textContent = '退出登录';
-            document.body.appendChild(logoutBtn);
-            
-            // 退出登录事件
-            logoutBtn.addEventListener('click', function() {
-                localStorage.removeItem('userType');
-                localStorage.removeItem('isLoggedIn');
-                window.location.href = 'login.html';
-            });
+            // 登录状态检查已完成，无需显示退出登录按钮
             
             // 游客模式权限控制
             if (userType === 'visitor') {
