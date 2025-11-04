@@ -610,34 +610,7 @@
         window.location.href = 'login.html';
       }
       
-      // 添加登出按钮到页面
-      const logoutDiv = document.createElement('div');
-      logoutDiv.style.cssText = `
-        position: fixed;
-        top: 100px;
-        right: 20px;
-        z-index: 1000;
-      `;
-      
-      const logoutButton = document.createElement('button');
-      logoutButton.textContent = '退出登录';
-      logoutButton.style.cssText = `
-        background-color: #f44336;
-        color: white;
-        border: none;
-        padding: 8px 16px;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
-      `;
-      
-      logoutButton.addEventListener('click', function() {
-        localStorage.removeItem('userType');
-        window.location.href = 'login.html';
-      });
-      
-      logoutDiv.appendChild(logoutButton);
-      document.body.appendChild(logoutDiv);
+      // 登录状态检查已完成，无需显示退出登录按钮
       
       // 如果是游客模式，隐藏所有写入相关的功能
       if (userType === 'visitor') {
