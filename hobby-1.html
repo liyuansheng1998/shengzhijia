@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D建模与动画 - 我的爱好</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        /* 退出按钮样式 */
+        .logout-btn {
+            position: fixed;
+            top: 150px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 9999;
+            transition: background-color 0.3s ease;
+        }
+        
+        .logout-btn:hover {
+            background-color: #c0392b;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* 可调整的导航栏高度 */
+        :root {
+            --nav-height: 80px; /* 修改此值以调整导航栏高度 */
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #212121;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 导航栏样式 */
+        .navbar {
+            background-color: #141414;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: var(--nav-height);
+            padding: 0 0; /* 水平内边距由 .container 控制 */
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-icon {
+            margin-right: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            left: 150px; /* 距离左侧50px */
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: contain;
+        }
+        
+        .brand-name {
+            color: #ffffff; /* 绿色 */
+            font-size: 30px;
+            font-family: 'ZiHun86', "Microsoft YaHei", sans-serif;/* 字体 */
+            text-decoration: none;
+            position: absolute;
+            left: 210px; /* 距离左侧50px */
+            font-weight: 500;
+        }
+
+        /* 右侧导航整体向右偏移 150px（桌面） */
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            position: absolute;
+            right: 150px; /* 距离右侧 150px */
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .nav-item {
+            margin-left: 30px;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: #b1b1b1;
+            font-weight: 500;
+            font-size: 16px;
+            transition: color 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+            font-weight: normal;
+        }
+        
+        .nav-link:hover {
+            color: #ffffff;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #3498db;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link.active {
+            color: #3498db;
+        }
+        
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* 爱好页面样式 */
+        .hobby-container {
+            max-width: 900px;
+            margin: 60px auto;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .hobby-header {
+            padding: 40px;
+            text-align: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .hobby-icon-large {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: #ffffff;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hobby-icon-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .hobby-title {
+            font-size: 36px;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-family: "Microsoft YaHei", sans-serif;
+            font-weight: 500;
+        }
+
+        .hobby-intro {
+            font-size: 18px;
+            color: #5b6b80;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .hobby-content {
+            padding: 40px;
+        }
+
+        .hobby-section {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .hobby-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .section-content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .section-content p {
+            margin-bottom: 15px;
+            text-indent: 2em;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .feature-item {
+            padding: 10px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .feature-item::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            color: #3498db;
+            font-size: 18px;
+        }
+
+        .hobby-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .gallery-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+
+        .gallery-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+            color: #3498db;
+        }
+
+        .gallery-title {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #2c3e50;
+        }
+
+        .gallery-desc {
+            font-size: 14px;
+            color: #5b6b80;
+            line-height: 1.5;
+        }
+
+        .hobby-footer {
+            text-align: center;
+            padding: 30px 0;
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .back-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-link:hover {
+            background-color: #2980b9;
+        }
+
+        /* 引用样式 */
+        .quote {
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .quote-text {
+            font-style: italic;
+            color: #5b6b80;
+            line-height: 1.7;
+        }
+
+        /* 上传区域样式 */
+        .upload-section {
+            margin: 30px 0;
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 30px;
+        }
+
+        .upload-form {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
+
+        .form-textarea {
+            min-height: 150px;
+            resize: vertical;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .file-input {
+            position: absolute;
+            top: 0;
+            right: 0;
+            font-size: 100px;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .file-label {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #3498db;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .file-label:hover {
+            background-color: #2980b9;
+        }
+
+        .upload-btn {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .upload-btn:hover {
+            background-color: #229954;
+        }
+
+        .upload-btn:disabled {
+            background-color: #95a5a6;
+            cursor: not-allowed;
+        }
+
+        .upload-success {
+            display: none;
+            padding: 15px;
+            background-color: #d4edda;
+            color: #155724;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* 作品展示区域 */
+        .works-section {
+            margin: 30px 0;
+        }
+
+        .works-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            background-color: #ecf0f1;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            background-color: #bdc3c7;
+        }
+
+        .tab-btn.active {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* 图片作品展示 */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .image-item {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .image-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .image-preview {
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .image-item:hover .image-preview img {
+            transform: scale(1.05);
+        }
+
+        .image-info {
+            padding: 15px;
+        }
+
+        .image-title {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        .image-date {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+
+        /* 视频作品展示 */
+        .video-list {
+            margin-top: 20px;
+        }
+
+        .video-item {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+        }
+
+        .video-preview {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+        }
+
+        .video-preview video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .video-info {
+            padding: 15px;
+        }
+
+        .video-title {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #2c3e50;
+        }
+
+        .video-date {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+
+        .video-description {
+            color: #34495e;
+            line-height: 1.6;
+        }
+
+        /* 笔记展示 */
+        .notes-list {
+            margin-top: 20px;
+        }
+
+        .note-item {
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+
+        .note-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .note-title {
+            font-size: 18px;
+            color: #2c3e50;
+            margin: 0;
+        }
+
+        .note-date {
+            font-size: 14px;
+            color: #7f8c8d;
+        }
+
+        .note-content {
+            color: #34495e;
+            line-height: 1.7;
+        }
+
+        /* 删除按钮 */
+        .delete-btn {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+
+        /* 空状态提示 */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #7f8c8d;
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        .empty-state-text {
+            font-size: 16px;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: static;
+                transform: none;
+                justify-content: center;
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                height: auto;
+                padding: 20px 0;
+            }
+
+            .logo-icon,
+            .brand-name {
+                position: static;
+            }
+
+            .hobby-container {
+                margin: 20px;
+            }
+
+            .hobby-header,
+            .hobby-content {
+                padding: 20px;
+            }
+
+            .hobby-title {
+                font-size: 28px;
+            }
+
+            .hobby-icon-large {
+                width: 100px;
+                height: 100px;
+            }
+
+            .image-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @font-face {
+            font-family: 'ZiHun86';
+            src: url('../fonts/字魂86号-杨任东楷书.woff2') format('woff2'),
+                 url('../fonts/字魂86号-杨任东楷书.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="1.html" class="logo">
+                <span class="logo-icon">
+                    <img src="images/logo.png" alt="昇哥数学 logo">
+                </span>
+                <span class="brand-name">昇之家</span>
+            </a>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="1.html#news" class="nav-link">最新动态</a>
+                </li>
+                <li class="nav-item">
+                    <a href="1.html#hobbys" class="nav-link active">我的爱好</a>
+                </li>
+                <li class="nav-item">
+                    <a href="1.html#events" class="nav-link">日记心得</a>
+                </li>
+                <!-- 已注释掉其他导航项 -->
+            </ul>            
+        </div>
+    </nav>
+    
+    <!-- 爱好内容 -->
+    <div class="container">
+        <div class="hobby-container">
+            <!-- 爱好头部 -->
+            <div class="hobby-header">
+                <div class="hobby-icon-large">
+                    <img src="images/棒棒糖.png" alt="3D建模与动画">
+                </div>
+                <h1 class="hobby-title">3D建模与动画</h1>
+                <p class="hobby-intro">画画是我追求的艺术，奈何功力不足，所以我转向了3D世界来表达我的创意。</p>
+            </div>
+            
+            <!-- 爱好内容区 -->
+            <div class="hobby-content">
+                <!-- 爱好介绍 -->
+                <div class="hobby-section">
+                    <h2 class="section-title">我的3D之旅</h2>
+                    <div class="section-content">
+                        <p>虽然我的绘画技巧有限，但我发现3D建模是另一种表达艺术创意的绝佳方式。在虚拟世界中，我可以通过几何体、材质和光影来创造出心中的景象。</p>
+                        <p>我喜欢从零开始构建模型，赋予它们生命和故事。每一个模型背后都有我对美学的理解和对细节的追求。</p>
+                    </div>
+                </div>
+
+                <!-- 技能与工具 -->
+                <div class="hobby-section">
+                    <h2 class="section-title">我使用的工具</h2>
+                    <div class="section-content">
+                        <ul class="feature-list">
+                            <li class="feature-item">3D建模软件</li>
+                            <li class="feature-item">材质与纹理设计工具</li>
+                            <li class="feature-item">简单的动画制作软件</li>
+                            <li class="feature-item">渲染引擎</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 创作类型 -->
+                <div class="hobby-section">
+                    <h2 class="section-title">我的创作方向</h2>
+                    <div class="hobby-gallery">
+                        <div class="gallery-item">
+                            <div class="gallery-icon">🏠</div>
+                            <h3 class="gallery-title">场景建模</h3>
+                            <p class="gallery-desc">创建充满细节的室内外环境</p>
+                        </div>
+                        <div class="gallery-item">
+                            <div class="gallery-icon">👤</div>
+                            <h3 class="gallery-title">角色设计</h3>
+                            <p class="gallery-desc">设计风格化的3D角色</p>
+                        </div>
+                        <div class="gallery-item">
+                            <div class="gallery-icon">✨</div>
+                            <h3 class="gallery-title">产品渲染</h3>
+                            <p class="gallery-desc">为概念产品创建逼真渲染图</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 创作理念 -->
+                <div class="hobby-section">
+                    <h2 class="section-title">我的创作理念</h2>
+                    <div class="section-content">
+                        <div class="quote">
+                            <p class="quote-text">"在3D世界中，限制我的只有想象力。每一个多边形都在讲述一个故事，每一个材质都在表达一种情感。"</p>
+                        </div>
+                        <p>我相信3D艺术不仅仅是技术的展示，更是情感和创意的表达。即使绘画技巧有限，我依然可以通过数字工具创造出打动人心的作品。</p>
+                    </div>
+                </div>
+
+                <!-- 作品上传区域 -->
+                <div class="hobby-section">
+                    <h2 class="section-title">上传我的作品</h2>
+                    <div class="upload-section">
+                        <div class="upload-success" id="uploadSuccess">
+                            <strong>上传成功！</strong> 您的作品已保存。
+                        </div>
+                        
+                        <div class="upload-form">
+                            <div class="form-group">
+                                <label class="form-label">作品类型</label>
+                                <select id="workType" class="form-input">
+                                    <option value="image">建模图片</option>
+                                    <option value="video">动画视频</option>
+                                    <option value="note">学习笔记</option>
+                                </select>
+                            </div>
+                            
+                            <div id="imageUploadSection">
+                                <div class="form-group">
+                                    <label class="form-label">图片标题</label>
+                                    <input type="text" id="imageTitle" class="form-input" placeholder="请输入图片标题">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">上传图片</label>
+                                    <div class="file-input-wrapper">
+                                        <input type="file" id="imageFile" class="file-input" accept="image/*">
+                                        <span class="file-label">选择图片文件</span>
+                                    </div>
+                                    <div id="imagePreviewContainer" style="margin-top: 15px; display: none;">
+                                        <img id="imagePreview" src="" alt="预览" style="max-width: 100%; max-height: 200px;">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div id="videoUploadSection" style="display: none;">
+                                <div class="form-group">
+                                    <label class="form-label">视频标题</label>
+                                    <input type="text" id="videoTitle" class="form-input" placeholder="请输入视频标题">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">视频描述</label>
+                                    <textarea id="videoDescription" class="form-textarea" placeholder="请输入视频描述"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">上传视频</label>
+                                    <div class="file-input-wrapper">
+                                        <input type="file" id="videoFile" class="file-input" accept="video/*">
+                                        <span class="file-label">选择视频文件</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div id="noteUploadSection" style="display: none;">
+                                <div class="form-group">
+                                    <label class="form-label">笔记标题</label>
+                                    <input type="text" id="noteTitle" class="form-input" placeholder="请输入笔记标题">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">笔记内容</label>
+                                    <textarea id="noteContent" class="form-textarea" placeholder="请输入笔记内容..."></textarea>
+                                </div>
+                            </div>
+                            
+                            <button type="button" id="uploadButton" class="upload-btn">上传作品</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 作品展示区域 -->
+                <div class="hobby-section">
+                    <h2 class="section-title">我的作品集</h2>
+                    
+                    <!-- 标签切换 -->
+                    <div class="works-tabs">
+                        <button class="tab-btn active" data-tab="images">建模图片</button>
+                        <button class="tab-btn" data-tab="videos">动画视频</button>
+                        <button class="tab-btn" data-tab="notes">学习笔记</button>
+                    </div>
+                    
+                    <!-- 图片展示 -->
+                    <div class="tab-content active" id="imagesTab">
+                        <div id="imageGallery" class="image-gallery">
+                            <!-- 图片将通过JavaScript动态添加 -->
+                            <div class="empty-state" id="emptyImages">
+                                <div class="empty-state-icon">📷</div>
+                                <div class="empty-state-text">还没有上传任何建模图片，点击上方的上传按钮开始分享您的作品！</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 视频展示 -->
+                    <div class="tab-content" id="videosTab">
+                        <div id="videoList" class="video-list">
+                            <!-- 视频将通过JavaScript动态添加 -->
+                            <div class="empty-state" id="emptyVideos">
+                                <div class="empty-state-icon">🎬</div>
+                                <div class="empty-state-text">还没有上传任何动画视频，点击上方的上传按钮开始分享您的作品！</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 笔记展示 -->
+                    <div class="tab-content" id="notesTab">
+                        <div id="notesList" class="notes-list">
+                            <!-- 笔记将通过JavaScript动态添加 -->
+                            <div class="empty-state" id="emptyNotes">
+                                <div class="empty-state-icon">📝</div>
+                                <div class="empty-state-text">还没有添加任何学习笔记，点击上方的上传按钮开始记录您的学习心得！</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 爱好底部 -->
+            <div class="hobby-footer">
+                <a href="1.html" class="back-link">返回首页</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 点击导航链接时设置活动状态
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                // 移除所有链接的活动状态
+                navLinks.forEach(item => item.classList.remove('active'));
+                // 为当前点击的链接添加活动状态
+                this.classList.add('active');
+            });
+        });
+
+        // 作品上传和展示功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取DOM元素
+            const workTypeSelect = document.getElementById('workType');
+            const imageUploadSection = document.getElementById('imageUploadSection');
+            const videoUploadSection = document.getElementById('videoUploadSection');
+            const noteUploadSection = document.getElementById('noteUploadSection');
+            const imageFile = document.getElementById('imageFile');
+            const imagePreview = document.getElementById('imagePreview');
+            const imagePreviewContainer = document.getElementById('imagePreviewContainer');
+            const uploadButton = document.getElementById('uploadButton');
+            const uploadSuccess = document.getElementById('uploadSuccess');
+            const tabButtons = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            const imageGallery = document.getElementById('imageGallery');
+            const videoList = document.getElementById('videoList');
+            const notesList = document.getElementById('notesList');
+            const emptyImages = document.getElementById('emptyImages');
+            const emptyVideos = document.getElementById('emptyVideos');
+            const emptyNotes = document.getElementById('emptyNotes');
+
+            // 初始化
+            initTabs();
+            loadWorks();
+
+            // 作品类型切换
+            workTypeSelect.addEventListener('change', function() {
+                const selectedType = this.value;
+                imageUploadSection.style.display = selectedType === 'image' ? 'block' : 'none';
+                videoUploadSection.style.display = selectedType === 'video' ? 'block' : 'none';
+                noteUploadSection.style.display = selectedType === 'note' ? 'block' : 'none';
+            });
+
+            // 图片预览
+            imageFile.addEventListener('change', function(e) {
+                if (e.target.files && e.target.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        imagePreview.src = e.target.result;
+                        imagePreviewContainer.style.display = 'block';
+                    }
+                    reader.readAsDataURL(e.target.files[0]);
+                }
+            });
+
+            // 上传按钮点击事件
+            uploadButton.addEventListener('click', function() {
+                const selectedType = workTypeSelect.value;
+                
+                if (selectedType === 'image') {
+                    uploadImage();
+                } else if (selectedType === 'video') {
+                    uploadVideo();
+                } else if (selectedType === 'note') {
+                    uploadNote();
+                }
+            });
+
+            // 上传图片
+            function uploadImage() {
+                const title = document.getElementById('imageTitle').value;
+                if (!title.trim()) {
+                    alert('请输入图片标题');
+                    return;
+                }
+                
+                if (!imageFile.files || !imageFile.files[0]) {
+                    alert('请选择要上传的图片');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const imageData = {
+                        id: Date.now().toString(),
+                        title: title,
+                        src: e.target.result,
+                        date: new Date().toLocaleString('zh-CN')
+                    };
+
+                    saveWork('images', imageData);
+                    showSuccessMessage();
+                    resetImageForm();
+                    loadWorks();
+                };
+                reader.readAsDataURL(imageFile.files[0]);
+            }
+
+            // 上传视频
+            function uploadVideo() {
+                const title = document.getElementById('videoTitle').value;
+                const description = document.getElementById('videoDescription').value;
+                
+                if (!title.trim()) {
+                    alert('请输入视频标题');
+                    return;
+                }
+                
+                if (!videoFile.files || !videoFile.files[0]) {
+                    alert('请选择要上传的视频');
+                    return;
+                }
+
+                // 注意：由于安全限制，浏览器中无法直接保存视频文件
+                // 这里我们只保存视频信息和URL（临时的）
+                const videoData = {
+                    id: Date.now().toString(),
+                    title: title,
+                    description: description,
+                    date: new Date().toLocaleString('zh-CN')
+                };
+
+                // 创建视频预览URL
+                const videoURL = URL.createObjectURL(videoFile.files[0]);
+                videoData.src = videoURL;
+
+                saveWork('videos', videoData);
+                showSuccessMessage();
+                resetVideoForm();
+                loadWorks();
+            }
+
+            // 上传笔记
+            function uploadNote() {
+                const title = document.getElementById('noteTitle').value;
+                const content = document.getElementById('noteContent').value;
+                
+                if (!title.trim()) {
+                    alert('请输入笔记标题');
+                    return;
+                }
+                
+                if (!content.trim()) {
+                    alert('请输入笔记内容');
+                    return;
+                }
+
+                const noteData = {
+                    id: Date.now().toString(),
+                    title: title,
+                    content: content,
+                    date: new Date().toLocaleString('zh-CN')
+                };
+
+                saveWork('notes', noteData);
+                showSuccessMessage();
+                resetNoteForm();
+                loadWorks();
+            }
+
+            // 保存作品到本地存储
+            function saveWork(type, data) {
+                let works = JSON.parse(localStorage.getItem(`3d_${type}`) || '[]');
+                works.unshift(data); // 添加到开头，最新的显示在前面
+                localStorage.setItem(`3d_${type}`, JSON.stringify(works));
+            }
+
+            // 加载作品
+            function loadWorks() {
+                loadImages();
+                loadVideos();
+                loadNotes();
+            }
+
+            // 加载图片
+            function loadImages() {
+                const images = JSON.parse(localStorage.getItem('3d_images') || '[]');
+                imageGallery.innerHTML = '';
+                
+                if (images.length === 0) {
+                    emptyImages.style.display = 'block';
+                    return;
+                }
+                
+                emptyImages.style.display = 'none';
+                
+                images.forEach(image => {
+                    const imageItem = document.createElement('div');
+                    imageItem.className = 'image-item';
+                    imageItem.innerHTML = `
+                        <div class="image-preview">
+                            <img src="${image.src}" alt="${image.title}">
+                        </div>
+                        <div class="image-info">
+                            <h3 class="image-title">${image.title}</h3>
+                            <p class="image-date">${image.date}</p>
+                            <button class="delete-btn" data-id="${image.id}" data-type="images">删除</button>
+                        </div>
+                    `;
+                    imageGallery.appendChild(imageItem);
+                });
+
+                addDeleteListeners();
+            }
+
+            // 加载视频
+            function loadVideos() {
+                const videos = JSON.parse(localStorage.getItem('3d_videos') || '[]');
+                videoList.innerHTML = '';
+                
+                if (videos.length === 0) {
+                    emptyVideos.style.display = 'block';
+                    return;
+                }
+                
+                emptyVideos.style.display = 'none';
+                
+                videos.forEach(video => {
+                    const videoItem = document.createElement('div');
+                    videoItem.className = 'video-item';
+                    videoItem.innerHTML = `
+                        <div class="video-preview">
+                            <video controls>
+                                <source src="${video.src}" type="video/mp4">
+                                您的浏览器不支持视频播放。
+                            </video>
+                        </div>
+                        <div class="video-info">
+                            <h3 class="video-title">${video.title}</h3>
+                            <p class="video-date">${video.date}</p>
+                            <p class="video-description">${video.description}</p>
+                            <button class="delete-btn" data-id="${video.id}" data-type="videos">删除</button>
+                        </div>
+                    `;
+                    videoList.appendChild(videoItem);
+                });
+
+                addDeleteListeners();
+            }
+
+            // 加载笔记
+            function loadNotes() {
+                const notes = JSON.parse(localStorage.getItem('3d_notes') || '[]');
+                notesList.innerHTML = '';
+                
+                if (notes.length === 0) {
+                    emptyNotes.style.display = 'block';
+                    return;
+                }
+                
+                emptyNotes.style.display = 'none';
+                
+                notes.forEach(note => {
+                    const noteItem = document.createElement('div');
+                    noteItem.className = 'note-item';
+                    noteItem.innerHTML = `
+                        <div class="note-header">
+                            <h3 class="note-title">${note.title}</h3>
+                            <p class="note-date">${note.date}</p>
+                        </div>
+                        <p class="note-content">${note.content}</p>
+                        <button class="delete-btn" data-id="${note.id}" data-type="notes">删除</button>
+                    `;
+                    notesList.appendChild(noteItem);
+                });
+
+                addDeleteListeners();
+            }
+
+            // 添加删除按钮事件监听
+            function addDeleteListeners() {
+                const deleteButtons = document.querySelectorAll('.delete-btn');
+                deleteButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        if (confirm('确定要删除这个作品吗？')) {
+                            const id = this.getAttribute('data-id');
+                            const type = this.getAttribute('data-type');
+                            deleteWork(type, id);
+                            loadWorks();
+                        }
+                    });
+                });
+            }
+
+            // 删除作品
+            function deleteWork(type, id) {
+                let works = JSON.parse(localStorage.getItem(`3d_${type}`) || '[]');
+                works = works.filter(work => work.id !== id);
+                localStorage.setItem(`3d_${type}`, JSON.stringify(works));
+            }
+
+            // 显示成功消息
+            function showSuccessMessage() {
+                uploadSuccess.style.display = 'block';
+                setTimeout(() => {
+                    uploadSuccess.style.display = 'none';
+                }, 3000);
+            }
+
+            // 重置表单
+            function resetImageForm() {
+                document.getElementById('imageTitle').value = '';
+                imageFile.value = '';
+                imagePreviewContainer.style.display = 'none';
+            }
+
+            function resetVideoForm() {
+                document.getElementById('videoTitle').value = '';
+                document.getElementById('videoDescription').value = '';
+                document.getElementById('videoFile').value = '';
+            }
+
+            function resetNoteForm() {
+                document.getElementById('noteTitle').value = '';
+                document.getElementById('noteContent').value = '';
+            }
+
+            // 初始化标签切换
+            function initTabs() {
+                tabButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const tabId = this.getAttribute('data-tab');
+                        
+                        // 移除所有活动状态
+                        tabButtons.forEach(btn => btn.classList.remove('active'));
+                        tabContents.forEach(content => content.classList.remove('active'));
+                        
+                        // 添加当前活动状态
+                        this.classList.add('active');
+                        document.getElementById(`${tabId}Tab`).classList.add('active');
+                    });
+                });
+            }
+        });
+    </script>
+</body>
+    <script>
+        // 登录状态检查
+        document.addEventListener('DOMContentLoaded', function() {
+            // 检查是否已登录
+            const userType = localStorage.getItem('userType');
+            
+            // 如果未登录，重定向到登录页
+            if (!userType) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // 创建退出登录按钮
+            const logoutBtn = document.createElement('button');
+            logoutBtn.className = 'logout-btn';
+            logoutBtn.textContent = '退出登录';
+            document.body.appendChild(logoutBtn);
+            
+            // 退出登录事件
+            logoutBtn.addEventListener('click', function() {
+                localStorage.removeItem('userType');
+                localStorage.removeItem('isLoggedIn');
+                window.location.href = 'login.html';
+            });
+            
+            // 游客模式权限控制
+            if (userType === 'visitor') {
+                // 隐藏编辑、保存和删除按钮
+                const editButtons = document.querySelectorAll('.edit-btn, .save-btn, .delete-btn');
+                editButtons.forEach(btn => {
+                    btn.style.display = 'none';
+                });
+                
+                // 隐藏所有表单
+                const forms = document.querySelectorAll('form');
+                forms.forEach(form => {
+                    form.style.display = 'none';
+                });
+            }
+        });
+    </script>
+</html>

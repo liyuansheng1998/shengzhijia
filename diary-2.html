@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>那些关于成长的笔记 - 日记</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        /* 退出按钮样式 */
+        .logout-btn {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 9999;
+            transition: background-color 0.3s ease;
+        }
+        
+        .logout-btn:hover {
+            background-color: #c0392b;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* 可调整的导航栏高度 */
+        :root {
+            --nav-height: 80px; /* 修改此值以调整导航栏高度 */
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #212121;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 导航栏样式 */
+        .navbar {
+            background-color: #141414;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: var(--nav-height);
+            padding: 0 0; /* 水平内边距由 .container 控制 */
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-icon {
+            margin-right: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            left: 150px; /* 距离左侧50px */
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: contain;
+        }
+        
+        .brand-name {
+            color: #ffffff; /* 绿色 */
+            font-size: 30px;
+            font-family: 'ZiHun86', "Microsoft YaHei", sans-serif;/* 字体 */
+            text-decoration: none;
+            position: absolute;
+            left: 210px; /* 距离左侧50px */
+            font-weight: 500;
+        }
+
+        /* 右侧导航整体向右偏移 150px（桌面） */
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            position: absolute;
+            right: 150px; /* 距离右侧 150px */
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .nav-item {
+            margin-left: 30px;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: #b1b1b1;
+            font-weight: 500;
+            font-size: 16px;
+            transition: color 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+            font-weight: normal;
+        }
+        
+        .nav-link:hover {
+            color: #ffffff;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #3498db;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link.active {
+            color: #3498db;
+        }
+        
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* 日记页面样式 */
+        .diary-container {
+            max-width: 900px;
+            margin: 60px auto;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .diary-header {
+            padding: 40px;
+            text-align: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .diary-title {
+            font-size: 36px;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-family: "Microsoft YaHei", sans-serif;
+            font-weight: 500;
+        }
+
+        .diary-date {
+            font-size: 18px;
+            color: #5b6b80;
+            margin-bottom: 20px;
+        }
+
+        .diary-cover {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin: 20px 0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .diary-content {
+            padding: 40px;
+        }
+
+        .diary-entry {
+            margin-bottom: 30px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .diary-entry:last-child {
+            border-bottom: none;
+        }
+
+        .entry-date {
+            font-size: 18px;
+            color: #3498db;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        .entry-text {
+            font-size: 18px;
+            line-height: 1.8;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .entry-text p {
+            margin-bottom: 15px;
+            text-indent: 2em;
+        }
+
+        .diary-footer {
+            text-align: center;
+            padding: 30px 0;
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .back-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-link:hover {
+            background-color: #2980b9;
+        }
+
+        /* 心情标签样式 */
+        .mood-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+            justify-content: center;
+        }
+
+        .mood-tag {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .mood-happy {
+            background-color: #d5f5e3;
+            color: #27ae60;
+        }
+
+        .mood-thoughtful {
+            background-color: #d6eaf8;
+            color: #3498db;
+        }
+
+        .mood-calm {
+            background-color: #e8daef;
+            color: #8e44ad;
+        }
+
+        .mood-reflective {
+            background-color: #f9ebea;
+            color: #e74c3c;
+        }
+        
+        /* 添加日记按钮样式 */
+        .add-diary-btn {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 24px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: 500;
+        }
+        
+        .add-diary-btn:hover {
+            background-color: #219a52;
+        }
+        
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .modal-title {
+            font-size: 24px;
+            color: #2c3e50;
+            margin: 0;
+        }
+        
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #7f8c8d;
+            transition: color 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            color: #2c3e50;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #34495e;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+            line-height: 1.6;
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .cancel-btn {
+            padding: 10px 20px;
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .cancel-btn:hover {
+            background-color: #bdc3c7;
+        }
+        
+        .save-btn {
+            padding: 10px 20px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .save-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        /* 日记管理按钮样式 */
+        .diary-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: flex-end;
+        }
+        
+        .edit-btn, .delete-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+        
+        .edit-btn {
+            background-color: #3498db;
+            color: white;
+        }
+        
+        .edit-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .delete-btn {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .delete-btn:hover {
+            background-color: #c0392b;
+        }
+        
+        /* 响应式模态框 */
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                margin: 20px;
+                padding: 20px;
+            }
+        }
+
+        @font-face {
+            font-family: 'ZiHun86';
+            src: url('fonts/字魂86号-杨任东楷书.woff2') format('woff2'),
+                 url('fonts/字魂86号-杨任东楷书.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-menu, .logo-icon, .brand-name {
+                position: static;
+            }
+            
+            .nav-container {
+                flex-direction: column;
+                height: auto;
+                padding: 20px 0;
+            }
+            
+            .nav-menu {
+                margin-top: 20px;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .nav-item {
+                margin: 5px 15px;
+            }
+            
+            .diary-header, .diary-content {
+                padding: 20px;
+            }
+            
+            .diary-title {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="1.html" class="logo">
+                <span class="logo-icon">
+                    <img src="images/logo.png" alt="昇哥数学 logo">
+                </span>
+                <span class="brand-name">昇之家</span>
+            </a>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="1.html#news" class="nav-link">最新动态</a>
+                </li>
+                <li class="nav-item">
+                    <a href="1.html#hobbys" class="nav-link">我的爱好</a>
+                </li>
+                <li class="nav-item">
+                    <a href="1.html#events" class="nav-link active">日记心得</a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a href="1.html#activities" class="nav-link">各种活动</a>
+                </li>
+                <li class="nav-item">
+                    <a href="1.html#reading" class="nav-link">阅读材料</a>
+                </li>
+                <li class="nav-item">
+                    <a href="1.html#talks" class="nav-link">经验和讲座</a>
+                </li>
+                <li class="nav-item">
+                    <a href="1.html#contact" class="nav-link">联系我</a>
+                </li> -->
+            </ul>            
+        </div>
+    </nav>
+    
+    <!-- 日记内容 -->
+    <div class="container">
+        <div class="diary-container">
+            <!-- 日记头部 -->
+            <div class="diary-header">
+                <h1 class="diary-title">那些关于成长的笔记</h1>
+                <div class="diary-date">2025-09-28</div>
+                
+                <!-- 心情标签 -->
+                <div class="mood-tags">
+                    <span class="mood-tag mood-thoughtful">思考</span>
+                    <span class="mood-tag mood-reflective">感悟</span>
+                </div>
+            </div>
+            
+            <!-- 日记内容区 -->
+            <div class="diary-content">
+                <!-- 日记条目1 -->
+                
+            </div>
+            
+            <!-- 日记底部 -->
+            <div class="diary-footer">
+                <button class="add-diary-btn">添加新日记</button>
+                <a href="1.html" class="back-link">返回首页</a>
+            </div>
+    
+    <!-- 日记编辑模态框 -->
+    <div class="modal" id="diaryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">写下你的日记</h2>
+                <button class="close-btn" id="closeModal">&times;</button>
+            </div>
+            <form id="diaryForm">
+                <div class="form-group">
+                    <label for="entryDate">日期时间</label>
+                    <input type="datetime-local" id="entryDate" name="entryDate" required>
+                </div>
+                <div class="form-group">
+                    <label for="mood">心情标签</label>
+                    <select id="mood" name="mood" required>
+                        <option value="">请选择心情</option>
+                        <option value="happy">开心</option>
+                        <option value="thoughtful">思考</option>
+                        <option value="calm">平静</option>
+                        <option value="reflective">感悟</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="entryText">日记内容</label>
+                    <textarea id="entryText" name="entryText" placeholder="在这里写下你的想法和感受..." required></textarea>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="cancel-btn" id="cancelBtn">取消</button>
+                    <button type="submit" class="save-btn">保存日记</button>
+                </div>
+            </form>
+        </div>
+    </div>
+        </div>
+    </div>
+
+    <script>
+        // 点击导航链接时设置活动状态
+        const navLinks = document.querySelectorAll('.nav-link');
+        const navMenu = document.querySelector('.nav-menu');
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                // 移除所有链接的活动状态
+                navLinks.forEach(item => item.classList.remove('active'));
+                // 为当前点击的链接添加活动状态
+                this.classList.add('active');
+            });
+        });
+        
+        // 日记功能相关代码
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取元素
+            const modal = document.getElementById('diaryModal');
+            const addBtn = document.querySelector('.add-diary-btn');
+            const closeBtn = document.getElementById('closeModal');
+            const cancelBtn = document.getElementById('cancelBtn');
+            const diaryForm = document.getElementById('diaryForm');
+            const diaryContent = document.querySelector('.diary-content');
+            
+            // 初始化时加载保存的日记
+            loadDiaries();
+            
+            // 初始化日期时间选择器为空（不设置默认值）
+            document.getElementById('entryDate').value = '';
+            
+            // 打开模态框
+            addBtn.addEventListener('click', function() {
+                modal.style.display = 'flex';
+                // 重置表单
+                diaryForm.reset();
+            });
+            
+            // 关闭模态框
+            function closeModal() {
+                modal.style.display = 'none';
+            }
+            
+            closeBtn.addEventListener('click', closeModal);
+            cancelBtn.addEventListener('click', closeModal);
+            
+            // 点击模态框外部关闭
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+            
+            // 保存日记
+            diaryForm.addEventListener('submit', function(event) {
+                event.preventDefault();
+                
+                const entryDate = document.getElementById('entryDate').value;
+                const mood = document.getElementById('mood').value;
+                const entryText = document.getElementById('entryText').value;
+                
+                // 格式化日期时间显示为精确到分钟
+                const date = new Date(entryDate);
+                const formattedDate = date.getFullYear() + '-' + 
+                                     String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+                                     String(date.getDate()).padStart(2, '0') + ' ' +
+                                     String(date.getHours()).padStart(2, '0') + ':' +
+                                     String(date.getMinutes()).padStart(2, '0');
+                
+                // 心情类名映射
+                const moodClasses = {
+                    'happy': 'mood-happy',
+                    'thoughtful': 'mood-thoughtful',
+                    'calm': 'mood-calm',
+                    'reflective': 'mood-reflective'
+                };
+                
+                const moodTexts = {
+                    'happy': '开心',
+                    'thoughtful': '思考',
+                    'calm': '平静',
+                    'reflective': '感悟'
+                };
+                
+                // 创建日记对象
+                // 检查是否是编辑模式
+                const isEdit = diaryForm.dataset.mode === 'edit';
+                const diaryId = diaryForm.dataset.diaryId;
+                
+                // 创建日记对象
+                const diaryEntry = {
+                    id: isEdit ? diaryId : Date.now().toString(),
+                    date: entryDate,
+                    displayDate: formattedDate,
+                    mood: mood,
+                    moodClass: moodClasses[mood],
+                    moodText: moodTexts[mood],
+                    text: entryText
+                };
+                
+                // 保存到本地存储
+                if (isEdit) {
+                    updateDiary(diaryEntry);
+                } else {
+                    saveDiary(diaryEntry);
+                }
+                
+                // 更新UI
+                addDiaryToUI(diaryEntry);
+                
+                // 关闭模态框
+                closeModal();
+                
+                // 显示成功提示
+                alert(isEdit ? '日记更新成功！' : '日记保存成功！');
+                
+                // 重置表单模式
+                delete diaryForm.dataset.mode;
+                delete diaryForm.dataset.diaryId;
+                document.querySelector('.modal-title').textContent = '写下你的日记';
+            });
+            
+            // 保存日记到本地存储
+            function saveDiary(entry) {
+                let diaries = JSON.parse(localStorage.getItem('diaries2')) || [];
+                diaries.push(entry);
+                localStorage.setItem('diaries2', JSON.stringify(diaries));
+            }
+            
+            // 更新日记
+            function updateDiary(updatedEntry) {
+                let diaries = JSON.parse(localStorage.getItem('diaries2')) || [];
+                // 找到并更新指定ID的日记
+                const index = diaries.findIndex(d => d.id === updatedEntry.id);
+                if (index !== -1) {
+                    diaries[index] = updatedEntry;
+                    localStorage.setItem('diaries2', JSON.stringify(diaries));
+                    
+                    // 更新UI
+                    const diaryDiv = document.getElementById(`diary-${updatedEntry.id}`);
+                    if (diaryDiv) {
+                        diaryContent.removeChild(diaryDiv);
+                        addDiaryToUI(updatedEntry);
+                    }
+                    
+                    // 重新排序所有日记
+                    refreshDiaryList();
+                }
+            }
+            
+            // 删除日记
+            function deleteDiary(id) {
+                if (confirm('确定要删除这篇日记吗？此操作不可恢复。')) {
+                    let diaries = JSON.parse(localStorage.getItem('diaries2')) || [];
+                    diaries = diaries.filter(d => d.id !== id);
+                    localStorage.setItem('diaries2', JSON.stringify(diaries));
+                    
+                    // 从UI中移除
+                    const diaryDiv = document.getElementById(`diary-${id}`);
+                    if (diaryDiv) {
+                        diaryContent.removeChild(diaryDiv);
+                    }
+                    
+                    alert('日记已删除！');
+                }
+            }
+            
+            // 刷新日记列表（重新排序）
+            function refreshDiaryList() {
+                // 清空内容区域中的动态添加的日记
+                const dynamicDiaries = Array.from(diaryContent.children).filter(child => 
+                    child.id && child.id.startsWith('diary-')
+                );
+                dynamicDiaries.forEach(diary => diaryContent.removeChild(diary));
+                
+                // 重新加载所有日记
+                loadDiaries();
+            }
+            
+            // 从本地存储加载日记
+            function loadDiaries() {
+                const diaries = JSON.parse(localStorage.getItem('diaries2')) || [];
+                // 按日期排序（最新的在前）
+                diaries.sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                diaries.forEach(diary => {
+                    addDiaryToUI(diary);
+                });
+            }
+            
+            // 添加日记到UI
+            function addDiaryToUI(diary) {
+                // 检查是否已经存在
+                if (document.querySelector(`#diary-${diary.id}`)) {
+                    return;
+                }
+                
+                const diaryDiv = document.createElement('div');
+                diaryDiv.id = `diary-${diary.id}`;
+                diaryDiv.className = 'diary-entry';
+                
+                // 将文本分割成段落
+                const paragraphs = diary.text.split('\n').filter(p => p.trim() !== '');
+                let textHtml = '';
+                paragraphs.forEach(p => {
+                    textHtml += `<p>${p}</p>`;
+                });
+                
+                diaryDiv.innerHTML = `
+                    <div class="entry-date">${diary.displayDate}</div>
+                    <div class="mood-tag ${diary.moodClass}">${diary.moodText}</div>
+                    <div class="entry-text">
+                        ${textHtml}
+                    </div>
+                    <div class="diary-actions">
+                        <button class="edit-btn" data-id="${diary.id}">编辑</button>
+                        <button class="delete-btn" data-id="${diary.id}">删除</button>
+                    </div>
+                `;
+                
+                // 添加到内容区域的顶部
+                if (diaryContent.firstChild) {
+                    diaryContent.insertBefore(diaryDiv, diaryContent.firstChild);
+                } else {
+                    diaryContent.appendChild(diaryDiv);
+                }
+                
+                // 为编辑和删除按钮添加事件监听器
+                const editBtn = diaryDiv.querySelector('.edit-btn');
+                const deleteBtn = diaryDiv.querySelector('.delete-btn');
+                
+                editBtn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    editDiary(id);
+                });
+                
+                deleteBtn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    deleteDiary(id);
+                });
+            }
+            
+            // 编辑日记
+            function editDiary(id) {
+                // 从本地存储获取日记数据
+                let diaries = JSON.parse(localStorage.getItem('diaries2')) || [];
+                const diary = diaries.find(d => d.id === id);
+                
+                if (diary) {
+                    // 填充表单
+                    document.getElementById('entryDate').value = diary.date;
+                    document.getElementById('mood').value = diary.mood;
+                    document.getElementById('entryText').value = diary.text;
+                    
+                    // 设置编辑模式
+                    diaryForm.dataset.mode = 'edit';
+                    diaryForm.dataset.diaryId = id;
+                    document.querySelector('.modal-title').textContent = '编辑日记';
+                    
+                    // 显示模态框
+                    modal.style.display = 'flex';
+                }
+            }
+        });
+    </script>
+</body>
+    <script>
+        // 登录状态检查
+        document.addEventListener('DOMContentLoaded', function() {
+            // 检查是否已登录
+            const userType = localStorage.getItem('userType');
+            
+            // 如果未登录，重定向到登录页
+            if (!userType) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // 创建退出登录按钮
+            const logoutBtn = document.createElement('button');
+            logoutBtn.className = 'logout-btn';
+            logoutBtn.textContent = '退出登录';
+            document.body.appendChild(logoutBtn);
+            
+            // 退出登录事件
+            logoutBtn.addEventListener('click', function() {
+                localStorage.removeItem('userType');
+                localStorage.removeItem('isLoggedIn');
+                window.location.href = 'login.html';
+            });
+            
+            // 游客模式权限控制
+            if (userType === 'visitor') {
+                // 隐藏编辑、保存和删除按钮
+                const editButtons = document.querySelectorAll('.edit-btn, .save-btn, .delete-btn');
+                editButtons.forEach(btn => {
+                    btn.style.display = 'none';
+                });
+                
+                // 隐藏所有表单
+                const forms = document.querySelectorAll('form');
+                forms.forEach(form => {
+                    form.style.display = 'none';
+                });
+            }
+        });
+    </script>
+</html>

@@ -1,0 +1,1139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文学创作 - 我的爱好</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        /* 退出按钮样式 */
+        .logout-btn {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 9999;
+            transition: background-color 0.3s ease;
+        }
+        
+        .logout-btn:hover {
+            background-color: #c0392b;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* 可调整的导航栏高度 */
+        :root {
+            --nav-height: 80px; /* 修改此值以调整导航栏高度 */
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #212121;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 导航栏样式 */
+        .navbar {
+            background-color: #141414;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: var(--nav-height);
+            padding: 0 0; /* 水平内边距由 .container 控制 */
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-icon {
+            margin-right: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            left: 150px; /* 距离左侧50px */
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: contain;
+        }
+        
+        .brand-name {
+            color: #ffffff; /* 绿色 */
+            font-size: 30px;
+            font-family: 'ZiHun86', "Microsoft YaHei", sans-serif;/* 字体 */
+            text-decoration: none;
+            position: absolute;
+            left: 210px; /* 距离左侧50px */
+            font-weight: 500;
+        }
+
+        /* 右侧导航整体向右偏移 150px（桌面） */
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            position: absolute;
+            right: 150px; /* 距离右侧 150px */
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .nav-item {
+            margin-left: 30px;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: #b1b1b1;
+            font-weight: 500;
+            font-size: 16px;
+            transition: color 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+            font-weight: normal;
+        }
+        
+        .nav-link:hover {
+            color: #ffffff;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #3498db;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link.active {
+            color: #3498db;
+        }
+        
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* 爱好页面样式 */
+        .hobby-container {
+            max-width: 900px;
+            margin: 60px auto;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        .hobby-header {
+            padding: 40px;
+            text-align: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e8f5e9 100%);
+        }
+
+        .hobby-icon-large {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            background: #ffffff;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hobby-icon-large img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .hobby-title {
+            font-size: 36px;
+            color: #2c3e50;
+            margin-bottom: 12px;
+            font-family: "Microsoft YaHei", sans-serif;
+            font-weight: 500;
+        }
+
+        .hobby-intro {
+            font-size: 18px;
+            color: #5b6b80;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .create-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 28px;
+            background-color: #4caf50;
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+        }
+        
+        .create-btn:hover {
+            background-color: #388e3c;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(76, 175, 80, 0.4);
+        }
+        
+        .create-btn:active {
+            transform: translateY(0);
+        }
+
+        .hobby-content {
+            padding: 40px;
+        }
+
+        .hobby-section {
+            margin-bottom: 40px;
+            padding-bottom: 40px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .hobby-section:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 24px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .section-content {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .section-content p {
+            margin-bottom: 15px;
+            text-indent: 2em;
+        }
+
+        .feature-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .feature-item {
+            padding: 10px 0;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .feature-item::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            color: #4caf50;
+            font-size: 18px;
+        }
+
+        /* 创作类型卡片 */
+        .writing-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .writing-type-card {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-top: 4px solid;
+        }
+
+        .writing-type-card:nth-child(1) {
+            border-top-color: #4caf50;
+        }
+
+        .writing-type-card:nth-child(2) {
+            border-top-color: #ff9800;
+        }
+
+        .writing-type-card:nth-child(3) {
+            border-top-color: #9c27b0;
+        }
+
+        .writing-type-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.12);
+        }
+
+        .type-icon {
+            font-size: 48px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .type-title {
+            font-size: 22px;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .type-desc {
+            color: #5b6b80;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .type-features {
+            margin-top: 20px;
+        }
+
+        .type-features li {
+            margin-bottom: 8px;
+            color: #5b6b80;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .type-features li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: inherit;
+            font-weight: bold;
+        }
+
+        /* 作品展示 */
+        .works-showcase {
+            margin: 30px 0;
+        }
+
+        .work-item {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4caf50;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .work-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+        }
+
+        .work-title {
+            font-size: 20px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-weight: 500;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+
+        .work-meta {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+
+        .work-excerpt {
+            color: #34495e;
+            line-height: 1.7;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        .work-read-more {
+            display: inline-block;
+            color: #4caf50;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .work-read-more:hover {
+            color: #388e3c;
+            text-decoration: underline;
+        }
+
+        /* 创作技巧 */
+        .writing-tips {
+            background: #f1f8e9;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 20px 0;
+        }
+
+        .tip-item {
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .tip-number {
+            background: #4caf50;
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: bold;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+
+        .tip-content {
+            color: #34495e;
+            line-height: 1.6;
+        }
+
+        .hobby-footer {
+            text-align: center;
+            padding: 30px 0;
+            background: #f8f9fa;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .back-link {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #4caf50;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-link:hover {
+            background-color: #388e3c;
+        }
+
+        /* 引用样式 */
+        .quote {
+            background: #f1f8e9;
+            border-left: 4px solid #4caf50;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .quote-text {
+            font-style: italic;
+            color: #5b6b80;
+            line-height: 1.7;
+        }
+
+        /* 创作理念 */
+        .creative-philosophy {
+            background: #e8f5e9;
+            padding: 30px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+
+        .philosophy-title {
+            font-size: 20px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .philosophy-content {
+            color: #34495e;
+            line-height: 1.8;
+            text-align: center;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: static;
+                transform: none;
+                justify-content: center;
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                height: auto;
+                padding: 20px 0;
+            }
+
+            .logo-icon,
+            .brand-name {
+                position: static;
+            }
+
+            .hobby-container {
+                margin: 20px;
+            }
+
+            .hobby-header,
+            .hobby-content {
+                padding: 20px;
+            }
+
+            .hobby-title {
+                font-size: 28px;
+            }
+
+            .hobby-icon-large {
+                width: 100px;
+                height: 100px;
+            }
+
+            .writing-types {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @font-face {
+            font-family: 'ZiHun86';
+            src: url('../fonts/字魂86号-杨任东楷书.woff2') format('woff2'),
+                 url('../fonts/字魂86号-杨任东楷书.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="1.html" class="logo">
+                <span class="logo-icon">
+                    <img src="images/logo.png" alt="昇哥数学 logo">
+                </span>
+                <span class="brand-name">昇之家</span>
+            </a>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="1.html#news" class="nav-link">最新动态</a>
+                </li>
+                <li class="nav-item">
+                    <a href="1.html#hobbys" class="nav-link active">我的爱好</a>
+                </li>
+                <li class="nav-item">
+                    <a href="1.html#events" class="nav-link">日记心得</a>
+                </li>
+                <!-- 已注释掉其他导航项 -->
+            </ul>            
+        </div>
+    </nav>
+    
+    <!-- 爱好内容 -->
+    <div class="container">
+        <div class="hobby-container">
+            <!-- 爱好头部 -->
+            <div class="hobby-header">
+                <div class="hobby-icon-large">
+                    <img src="images/棒棒糖.png" alt="文学创作">
+                </div>
+                <h1 class="hobby-title">文学创作</h1>
+                <p class="hobby-intro">探索文字的魅力，记录思想的火花，通过散文、小说与诗歌表达内心世界。</p>
+                <a href="create_literature.html" class="create-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 5v14M5 12h14"/>
+                    </svg>
+                    开始创作
+                </a>
+            </div>
+            
+            <!-- 爱好内容区 -->
+            <div class="hobby-content">
+                <!-- 爱好介绍 -->
+                <div class="hobby-section">
+                    <h2 class="section-title">我的文学之路</h2>
+                    <div class="section-content">
+                        <p>文学创作对我来说是一种心灵的表达，也是与世界对话的方式。在教育工作之余，我喜欢用文字构建不同的世界，表达对生活的感悟，传递对美好事物的向往。通过散文、小说和诗歌等不同形式，我尝试从多角度探索人性、生活和教育的真谛。</p>
+                        <p>每一次创作都是一次心灵的旅程，从构思到成文，从初稿到修改，这个过程不仅让我更好地理解自己，也让我学会用更加细腻的眼光观察世界。文学创作是我生活中不可或缺的一部分，它丰富了我的精神世界，也让我能够以更加全面的视角看待教育。</p>
+                    </div>
+                </div>
+
+                <!-- 创作理念 -->
+                <div class="creative-philosophy">
+                    <h3 class="philosophy-title">我的创作理念</h3>
+                    <p class="philosophy-content">"文字是心灵的镜子，创作是灵魂的舞蹈。我希望通过我的作品，能够触动人心，传递温暖，激发思考。"</p>
+                </div>
+
+                <!-- 创作类型 -->
+                <div class="hobby-section">
+                    <h2 class="section-title">我的创作类型</h2>
+                    <div class="writing-types">
+                        <!-- 散文创作 -->
+                        <div class="writing-type-card">
+                            <div class="type-icon">�</div>
+                            <h3 class="type-title">散文创作</h3>
+                            <p class="type-desc">散文是我最常创作的文学形式，它自由灵活，能够真实地记录生活中的点滴感悟和思考。</p>
+                            <ul class="type-features">
+                                <li>记录生活感悟与教育心得</li>
+                                <li>表达对自然与人文的观察</li>
+                                <li>自由随性的文风，注重真实感</li>
+                                <li>常采用叙事、抒情相结合的方式</li>
+                            </ul>
+                        </div>
+
+                        <!-- 小说创作 -->
+                        <div class="writing-type-card">
+                            <div class="type-icon">📚</div>
+                            <h3 class="type-title">小说创作</h3>
+                            <p class="type-desc">小说让我能够构建完整的故事世界，塑造鲜明的人物形象，探索复杂的人性命题。</p>
+                            <ul class="type-features">
+                                <li>以教育为主题的短篇故事</li>
+                                <li>塑造富有代表性的教师与学生形象</li>
+                                <li>通过故事反映教育现实与思考</li>
+                                <li>注重情节的逻辑性与人物心理描写</li>
+                            </ul>
+                        </div>
+
+                        <!-- 诗歌创作 -->
+                        <div class="writing-type-card">
+                            <div class="type-icon">📜</div>
+                            <h3 class="type-title">诗歌创作</h3>
+                            <p class="type-desc">诗歌是最凝练的表达形式，用简洁而富有韵律的语言，传递深刻的情感与思考。</p>
+                            <ul class="type-features">
+                                <li>以教育为主题的现代诗歌</li>
+                                <li>注重意象的选取与语言的凝练</li>
+                                <li>通过诗歌表达对教育的热爱</li>
+                                <li>形式多样，包括自由诗、格律诗等</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 代表作品 -->
+                <div class="hobby-section">
+                    <h2 class="section-title">代表作品</h2>
+                    <div class="works-showcase" id="worksShowcase">
+                        <!-- 示例作品 -->
+                        <div class="work-item">
+                            <h3 class="work-title">《教室的那扇窗》</h3>
+                            <div class="work-meta">散文 · 教育感悟</div>
+                            <p class="work-excerpt">教室里的那扇窗，不仅是阳光和空气的通道，更是连接世界与心灵的桥梁。每当我站在窗前，看着窗外的梧桐树影，总能想起那些在阳光下成长的孩子们，他们的笑容如同阳光般温暖，照亮了整个教室，也照亮了我作为教师的人生道路。</p>
+                            <a href="#" class="work-read-more">阅读全文 →</a>
+                        </div>
+
+                        <!-- 小说作品 -->
+                        <div class="work-item">
+                            <h3 class="work-title">《成长的方程式》</h3>
+                            <div class="work-meta">短篇故事 · 教育主题</div>
+                            <p class="work-excerpt">李明是班上最调皮的学生，数学成绩总是垫底。直到有一天，新来的数学老师发现了他特殊的思维方式。原来，李明并不是学不好数学，而是在用自己的方式理解这个世界。这个发现，不仅改变了李明的学习轨迹，也让老师重新思考了教育的本质。</p>
+                            <a href="#" class="work-read-more">阅读全文 →</a>
+                        </div>
+
+                        <!-- 诗歌作品 -->
+                        <div class="work-item">
+                            <h3 class="work-title">《粉笔的歌》</h3>
+                            <div class="work-meta">诗歌 · 教育情怀</div>
+                            <p class="work-excerpt">纤细的身躯，洁白的衣裳，
+我在黑板上跳舞，书写知识的篇章。
+每一次摩擦，都是思想的火花，
+每一道痕迹，都通向智慧的远方。
+虽然生命短暂，却无怨无悔，
+因为看到你求知的眼睛，
+就是我最大的荣光。</p>
+                            <a href="#" class="work-read-more">阅读全文 →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 创作技巧 -->
+                <div class="hobby-section">
+                    <h2 class="section-title">文学创作技巧</h2>
+                    <div class="writing-tips">
+                        <div class="tip-item">
+                            <div class="tip-number">1</div>
+                            <div class="tip-content">保持观察的习惯，生活中的点滴细节往往是最好的创作素材。教育场景、师生互动、校园生活都是丰富的创作源泉。</div>
+                        </div>
+                        <div class="tip-item">
+                            <div class="tip-number">2</div>
+                            <div class="tip-content">重视积累，多读书、多思考、多记录。建立自己的素材库，随时记录灵感闪现的瞬间和有价值的观察。</div>
+                        </div>
+                        <div class="tip-item">
+                            <div class="tip-number">3</div>
+                            <div class="tip-content">注重情感的真实表达。文学作品的生命力在于情感的真实，只有真诚的表达才能打动读者的心灵。</div>
+                        </div>
+                        <div class="tip-item">
+                            <div class="tip-number">4</div>
+                            <div class="tip-content">勤于修改，好文章是改出来的。写完初稿后，多进行几轮修改，关注文章的结构、语言的凝练和情感的表达。</div>
+                        </div>
+                    </div>
+
+                    <div class="quote">
+                        <p class="quote-text">"写作是一种修炼，需要耐心和毅力。每一篇作品都是一次成长，一次对自我的超越。坚持写作，不仅能够提高表达能力，更能够让我们更好地理解自己和这个世界。"</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 爱好底部 -->
+            <div class="hobby-footer">
+                <a href="1.html" class="back-link">返回首页</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 点击导航链接时设置活动状态
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        navLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                // 移除所有链接的活动状态
+                navLinks.forEach(item => item.classList.remove('active'));
+                // 为当前点击的链接添加活动状态
+                this.classList.add('active');
+            });
+        });
+
+        // 为创作类型卡片添加点击效果
+        const typeCards = document.querySelectorAll('.writing-type-card');
+        typeCards.forEach(card => {
+            card.addEventListener('click', function() {
+                // 可以在这里添加交互效果，比如滚动到对应的作品展示区
+                const type = this.querySelector('.type-title').textContent;
+                console.log('点击了' + type);
+            });
+        });
+
+        // 从本地存储加载用户创作的文章
+        function loadUserWorks() {
+            try {
+                const savedWorks = localStorage.getItem('literaryWorks');
+                const worksShowcase = document.getElementById('worksShowcase');
+                
+                // 清空现有内容
+                worksShowcase.innerHTML = '';
+                
+                if (savedWorks) {
+                    const works = JSON.parse(savedWorks);
+                    
+                    if (Array.isArray(works) && works.length > 0) {
+                        // 按更新时间倒序排序
+                        works.sort((a, b) => {
+                            const dateA = a.updateTime ? new Date(a.updateTime) : new Date(a.createTime);
+                            const dateB = b.updateTime ? new Date(b.updateTime) : new Date(b.createTime);
+                            return dateB - dateA;
+                        });
+                        
+                        // 添加用户作品
+                        works.forEach(work => {
+                            const workItem = document.createElement('div');
+                            workItem.className = 'work-item';
+                            
+                            // 获取类型对应的中文名称
+                            const typeName = work.typeName || getTypeName(work.type);
+                            
+                            // 获取分类信息
+                            const category = getCategoryInfo(work);
+                            
+                            // 创建摘要
+                            let excerpt = '';
+                            if (work.content) {
+                                if (work.type === 'poetry') {
+                                    // 格式化诗歌内容
+                                    excerpt = work.content.split('\n').slice(0, 3).join('\n');
+                                    if (work.content.split('\n').length > 3) {
+                                        excerpt += '\n...';
+                                    }
+                                } else {
+                                    // 散文和小说摘要
+                                    excerpt = work.content.substring(0, 150);
+                                    if (work.content.length > 150) {
+                                        excerpt += '...';
+                                    }
+                                }
+                            }
+                            
+                            // 设置不同类型的作品有不同的边框颜色
+                            const typeColors = {
+                                'prose': '#4caf50',   // 绿色
+                                'novel': '#ff9800',   // 橙色
+                                'poetry': '#9c27b0'   // 紫色
+                            };
+                            workItem.style.borderLeftColor = typeColors[work.type] || '#4caf50';
+                            
+                            workItem.innerHTML = `
+                                <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                                    <h3 class="work-title">《${work.title || '无标题作品'}》</h3>
+                                    <span style="font-size: 12px; color: #999;">${formatDate(work.updateTime || work.createTime)}</span>
+                                </div>
+                                <div class="work-meta">${typeName} ${category ? '· ' + category : ''}</div>
+                                <p class="work-excerpt">${excerpt}</p>
+                                <button class="work-read-more" onclick="readFullWork(${work.id})">阅读全文 →</button>
+                            `;
+                            
+                            worksShowcase.appendChild(workItem);
+                        });
+                    } else {
+                        // 显示空状态提示
+                        worksShowcase.innerHTML = `
+                            <div style="text-align: center; padding: 60px 20px; color: #999;">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto 20px;">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10 9 9 9 8 9"></polyline>
+                                </svg>
+                                <p style="font-size: 18px; margin-bottom: 15px;">还没有创作作品</p>
+                                <p>点击上方的"开始创作"按钮，开始您的文学之旅吧！</p>
+                            </div>
+                        `;
+                    }
+                } else {
+                    // 显示空状态提示
+                    worksShowcase.innerHTML = `
+                        <div style="text-align: center; padding: 60px 20px; color: #999;">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="margin: 0 auto 20px;">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" y1="13" x2="8" y2="13"></line>
+                                <line x1="16" y1="17" x2="8" y2="17"></line>
+                                <polyline points="10 9 9 9 8 9"></polyline>
+                            </svg>
+                            <p style="font-size: 18px; margin-bottom: 15px;">还没有创作作品</p>
+                            <p>点击上方的"开始创作"按钮，开始您的文学之旅吧！</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('加载作品时出错:', error);
+                const worksShowcase = document.getElementById('worksShowcase');
+                worksShowcase.innerHTML = `
+                    <div style="text-align: center; padding: 60px 20px; color: #999;">
+                        <p>加载作品时发生错误，请刷新页面重试。</p>
+                    </div>
+                `;
+            }
+        }
+        
+        // 格式化日期
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            
+            const date = new Date(dateStr);
+            if (isNaN(date.getTime())) return '';
+            
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
+            
+            return `${year}-${month}-${day}`;
+        }
+        
+        // 获取类型名称
+        function getTypeName(type) {
+            const typeNames = {
+                'prose': '散文',
+                'novel': '小说',
+                'poetry': '诗歌'
+            };
+            return typeNames[type] || type;
+        }
+        
+        // 获取分类信息
+        function getCategoryInfo(work) {
+            if (work.category) return work.category;
+            if (work.genre) return work.genre;
+            if (work.poetryType) return work.poetryType;
+            if (work.theme) return work.theme;
+            return '';
+        }
+        
+        // 阅读完整作品
+        window.readFullWork = function(id) {
+            const savedWorks = localStorage.getItem('literaryWorks');
+            if (savedWorks) {
+                const works = JSON.parse(savedWorks);
+                const work = works.find(w => w.id === id);
+                if (work) {
+                    // 创建阅读窗口
+                    const overlay = document.createElement('div');
+                    overlay.style.cssText = `
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        width: 100%;
+                        height: 100%;
+                        background: rgba(0, 0, 0, 0.7);
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        z-index: 9999;
+                        padding: 20px;
+                    `;
+                    
+                    const modal = document.createElement('div');
+                    modal.style.cssText = `
+                        background: white;
+                        border-radius: 10px;
+                        padding: 40px;
+                        max-width: 800px;
+                        max-height: 80vh;
+                        overflow-y: auto;
+                        width: 100%;
+                    `;
+                    
+                    // 格式化内容显示
+                    let formattedContent = '';
+                    if (work.type === 'poetry') {
+                        // 诗歌格式化
+                        formattedContent = work.content.split('\n')
+                            .map(line => `<p style="text-align: center; margin-bottom: 15px; font-style: italic; font-size: 18px;">${line}</p>`)
+                            .join('');
+                    } else {
+                        // 散文和小说格式化
+                        formattedContent = work.content.split('\n')
+                            .map(paragraph => `<p style="margin-bottom: 20px; text-indent: 2em; line-height: 1.8;">${paragraph}</p>`)
+                            .join('');
+                    }
+                    
+                    modal.innerHTML = `
+                        <div style="margin-bottom: 30px;">
+                            <h2 style="font-size: 28px; color: #2c3e50; margin-bottom: 15px;">《${work.title}》</h2>
+                            <div style="color: #7f8c8d; font-size: 14px; margin-bottom: 20px;">
+                                类型：${getTypeName(work.type)} | 创建时间：${work.createTime}
+                                ${work.tags && work.tags.length > 0 ? '<br>标签：' + work.tags.join('、') : ''}
+                            </div>
+                        </div>
+                        <div style="border-top: 1px solid #e0e0e0; padding-top: 20px;">
+                            ${formattedContent}
+                        </div>
+                        <div style="text-align: center; margin-top: 30px;">
+                            <button id="closeModal" style="
+                                padding: 10px 30px;
+                                background: #4caf50;
+                                color: white;
+                                border: none;
+                                border-radius: 6px;
+                                cursor: pointer;
+                                font-size: 16px;
+                            ">关闭</button>
+                        </div>
+                    `;
+                    
+                    overlay.appendChild(modal);
+                    document.body.appendChild(overlay);
+                    
+                    // 关闭按钮
+                    document.getElementById('closeModal').addEventListener('click', function() {
+                        document.body.removeChild(overlay);
+                    });
+                    
+                    // 点击遮罩层关闭
+                    overlay.addEventListener('click', function(e) {
+                        if (e.target === overlay) {
+                            document.body.removeChild(overlay);
+                        }
+                    });
+                    
+                    // ESC键关闭
+                    document.addEventListener('keydown', function(e) {
+                        if (e.key === 'Escape') {
+                            document.body.removeChild(overlay);
+                        }
+                    });
+                }
+            }
+        }
+        
+        // 使用BroadcastChannel监听作品更新
+        let broadcastChannel = null;
+        try {
+            broadcastChannel = new BroadcastChannel('literaryWorksChannel');
+            broadcastChannel.addEventListener('message', function(event) {
+                if (event.data && event.data.type === 'worksUpdated') {
+                    console.log('通过BroadcastChannel接收到作品更新通知');
+                    loadUserWorks();
+                }
+            });
+            
+            // 在页面卸载时关闭通道
+            window.addEventListener('beforeunload', function() {
+                if (broadcastChannel) {
+                    broadcastChannel.close();
+                }
+            });
+        } catch (e) {
+            console.log('BroadcastChannel不支持，将使用其他方式检测更新');
+        }
+        
+        // 监听消息事件，当创作页面保存了新作品时更新列表
+        window.addEventListener('message', function(event) {
+            if (event.data && event.data.type === 'worksUpdated') {
+                console.log('通过window.postMessage接收到作品更新通知');
+                loadUserWorks();
+            }
+        });
+        
+        // 轮询检测更新（作为备用方案）
+        let lastUpdateTime = localStorage.getItem('lastWorksUpdate');
+        function checkForUpdates() {
+            const currentUpdateTime = localStorage.getItem('lastWorksUpdate');
+            if (currentUpdateTime && currentUpdateTime !== lastUpdateTime) {
+                lastUpdateTime = currentUpdateTime;
+                console.log('通过轮询检测到作品更新');
+                loadUserWorks();
+            }
+        }
+        
+        // 每30秒检查一次更新
+        setInterval(checkForUpdates, 30000);
+        
+        // 页面加载时加载用户作品
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserWorks();
+            
+            // 添加一个刷新按钮，允许用户手动刷新作品列表
+            const sectionTitle = document.querySelector('.hobby-section h2.section-title');
+            if (sectionTitle && sectionTitle.textContent === '代表作品') {
+                const refreshButton = document.createElement('button');
+                refreshButton.textContent = '刷新作品';
+                refreshButton.style.cssText = `
+                    margin-left: 20px;
+                    padding: 6px 16px;
+                    background: #f5f5f5;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    font-size: 14px;
+                    color: #666;
+                    transition: all 0.3s ease;
+                `;
+                refreshButton.addEventListener('mouseover', function() {
+                    this.style.background = '#e0e0e0';
+                    this.style.borderColor = '#bbb';
+                    this.style.color = '#333';
+                });
+                refreshButton.addEventListener('mouseout', function() {
+                    this.style.background = '#f5f5f5';
+                    this.style.borderColor = '#ddd';
+                    this.style.color = '#666';
+                });
+                refreshButton.addEventListener('click', function() {
+                    loadUserWorks();
+                });
+                
+                // 将按钮添加到标题元素中
+                const parent = sectionTitle.parentNode;
+                const wrapper = document.createElement('div');
+                wrapper.style.display = 'flex';
+                wrapper.style.alignItems = 'center';
+                parent.insertBefore(wrapper, sectionTitle);
+                wrapper.appendChild(sectionTitle);
+                wrapper.appendChild(refreshButton);
+            }
+        });
+        
+        // 暴露一个全局函数，允许其他页面或控制台手动触发作品列表刷新
+        window.refreshWorksList = function() {
+            loadUserWorks();
+        }
+    </script>
+</body>
+    <script>
+        // 登录状态检查
+        document.addEventListener('DOMContentLoaded', function() {
+            // 检查是否已登录
+            const userType = localStorage.getItem('userType');
+            
+            // 如果未登录，重定向到登录页
+            if (!userType) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // 创建退出登录按钮
+            const logoutBtn = document.createElement('button');
+            logoutBtn.className = 'logout-btn';
+            logoutBtn.textContent = '退出登录';
+            document.body.appendChild(logoutBtn);
+            
+            // 退出登录事件
+            logoutBtn.addEventListener('click', function() {
+                localStorage.removeItem('userType');
+                localStorage.removeItem('isLoggedIn');
+                window.location.href = 'login.html';
+            });
+            
+            // 游客模式权限控制
+            if (userType === 'visitor') {
+                // 隐藏编辑、保存和删除按钮
+                const editButtons = document.querySelectorAll('.edit-btn, .save-btn, .delete-btn');
+                editButtons.forEach(btn => {
+                    btn.style.display = 'none';
+                });
+                
+                // 隐藏所有表单
+                const forms = document.querySelectorAll('form');
+                forms.forEach(form => {
+                    form.style.display = 'none';
+                });
+            }
+        });
+    </script>
+</html>

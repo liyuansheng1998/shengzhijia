@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>摄影剪影 - 爱好</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+      background: #f7fafc;
+      color: #111;
+      margin: 0;
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    
+    .title {
+      font-size: 28px;
+      margin-bottom: 6px;
+    }
+    
+    .icon {
+      font-size: 34px;
+    }
+    
+    .desc {
+      margin-top: 12px;
+      font-size: 16px;
+      line-height: 1.7;
+      color: #334;
+    }
+    
+    /* 导航栏样式 */
+    nav {
+      background: #141414;
+      padding: 12px 0;
+      color: #fff;
+    }
+    
+    nav > div {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+    
+    nav a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 20px;
+      font-weight: 600;
+    }
+    
+    nav .nav-links {
+      margin-left: auto;
+      display: flex;
+      gap: 18px;
+      align-items: center;
+    }
+    
+    nav .nav-links a {
+      color: #b1b1b1;
+      font-size: 16px;
+      font-weight: normal;
+      transition: color 0.3s;
+    }
+    
+    nav .nav-links a:hover {
+      color: #fff;
+    }
+    
+    /* 头部样式 */
+    .hobby-header {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      margin-top: 18px;
+      margin-bottom: 40px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+    
+    .hobby-header img {
+      width: 80px;
+      height: 80px;
+      border-radius: 8px;
+      object-fit: cover;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* 上传区域样式 */
+    .upload-section {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      margin-bottom: 40px;
+    }
+    
+    .upload-section h2 {
+      margin-bottom: 20px;
+      color: #1e293b;
+      font-size: 22px;
+    }
+    
+    .upload-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .form-group label {
+      font-weight: 600;
+      color: #475569;
+    }
+    
+    .form-group input[type="file"] {
+      padding: 10px;
+      border: 2px dashed #cbd5e1;
+      border-radius: 8px;
+      background: #f8fafc;
+      transition: border-color 0.3s;
+    }
+    
+    .form-group input[type="file"]:hover {
+      border-color: #3b82f6;
+    }
+    
+    .form-group select,
+    .form-group textarea {
+      padding: 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: border-color 0.3s;
+    }
+    
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #3b82f6;
+    }
+    
+    .form-group textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+    
+    .upload-btn {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      align-self: flex-start;
+    }
+    
+    .upload-btn:hover {
+      background: #2563eb;
+    }
+    
+    /* 过滤器样式 */
+    .filter-section {
+      background: #fff;
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      margin-bottom: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: center;
+    }
+    
+    .filter-section label {
+      font-weight: 600;
+      color: #475569;
+    }
+    
+    .filter-section select {
+      padding: 8px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    
+    /* 媒体库样式 */
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+    
+    .media-card {
+      background: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .media-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+    
+    .media-preview {
+      width: 100%;
+      height: 200px;
+      overflow: hidden;
+      position: relative;
+      background: #f1f5f9;
+    }
+    
+    .media-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .media-preview video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .media-type-badge {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+    }
+    
+    .media-info {
+      padding: 16px;
+    }
+    
+    .media-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #1e293b;
+    }
+    
+    .media-description {
+      color: #64748b;
+      font-size: 14px;
+      margin-bottom: 12px;
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    
+    .media-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #94a3b8;
+    }
+    
+    .media-category {
+      background: #e2e8f0;
+      color: #475569;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    .media-actions {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .delete-btn {
+      background: #ef4444;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .delete-btn:hover {
+      background: #dc2626;
+    }
+    
+    .view-btn {
+      background: #3b82f6;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      text-decoration: none;
+    }
+    
+    .view-btn:hover {
+      background: #2563eb;
+    }
+    
+    /* 空状态样式 */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: #94a3b8;
+    }
+    
+    .empty-state p {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+    
+    /* 通知样式 */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 16px 24px;
+      border-radius: 8px;
+      color: white;
+      font-weight: 600;
+      z-index: 1000;
+      transform: translateX(100%);
+      transition: transform 0.3s;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .notification.success {
+      background: #10b981;
+    }
+    
+    .notification.error {
+      background: #ef4444;
+    }
+    
+    .notification.show {
+      transform: translateX(0);
+    }
+    
+    /* 模态框样式 */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .modal-content {
+      background: white;
+      border-radius: 12px;
+      max-width: 800px;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+    }
+    
+    .modal-media {
+      width: 100%;
+      max-height: 60vh;
+      object-fit: contain;
+    }
+    
+    .modal-info {
+      padding: 20px;
+    }
+    
+    .modal-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      font-size: 18px;
+      cursor: pointer;
+      z-index: 2001;
+    }
+    
+    /* 页脚样式 */
+    footer {
+      margin-top: 60px;
+      padding: 22px 0;
+      background: #0f1720;
+      color: #cbd5e1;
+    }
+    
+    footer > div {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    footer a {
+      color: #93c5fd;
+      text-decoration: underline;
+    }
+    
+    /* 返回首页链接 */
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      color: #3b82f6;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    
+    .back-link:hover {
+      color: #2563eb;
+    }
+    
+    /* 退出按钮样式 */
+    .logout-btn {
+      position: fixed;
+      top: 100px;
+      right: 20px;
+      padding: 10px 20px;
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      z-index: 9999;
+      transition: background-color 0.3s ease;
+    }
+    
+    .logout-btn:hover {
+      background-color: #c0392b;
+    }
+    
+    /* 响应式设计 */
+    @media (max-width: 768px) {
+      .gallery {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      }
+      
+      .hobby-header {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .upload-btn {
+        width: 100%;
+      }
+      
+      .modal-content {
+        width: 95%;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .gallery {
+        grid-template-columns: 1fr;
+      }
+      
+      .nav-links {
+        flex-direction: column;
+        gap: 8px !important;
+      }
+      
+      nav > div {
+        flex-direction: column;
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div>
+      <a href="1.html">昇之家</a>
+      <div class="nav-links">
+        <a href="1.html#news">最新动态</a>
+        <a href="1.html#hobbys">我的爱好</a>
+        <a href="1.html#events">日记心得</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="hobby-header">
+      <img src="images/牛角包.png" alt="摄影" style="width:80px;height:80px;border-radius:8px;object-fit:cover">
+      <div>
+        <h1 class="title">摄影剪影</h1>
+        <div class="desc">记录课堂与生活的光影，用摄影捕捉瞬间和细节，偶尔做成小集锦。</div>
+      </div>
+    </div>
+
+    <!-- 上传区域 -->
+    <div class="upload-section">
+      <h2>上传照片或视频</h2>
+      <form id="uploadForm" class="upload-form">
+        <div class="form-group">
+          <label for="mediaFile">选择文件 (支持 JPG, PNG, GIF, MP4, WebM)</label>
+          <input type="file" id="mediaFile" accept="image/*,video/*" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="mediaCategory">分类</label>
+          <select id="mediaCategory" required>
+            <option value="">请选择分类</option>
+            <option value="风景">风景摄影</option>
+            <option value="人像">人像摄影</option>
+            <option value="静物">静物摄影</option>
+            <option value="生活">生活记录</option>
+            <option value="课堂">课堂瞬间</option>
+            <option value="其他">其他</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label for="mediaTitle">标题</label>
+          <input type="text" id="mediaTitle" placeholder="输入作品标题" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="mediaDescription">说明</label>
+          <textarea id="mediaDescription" placeholder="添加作品说明..."></textarea>
+        </div>
+        
+        <button type="submit" class="upload-btn">上传</button>
+      </form>
+    </div>
+
+    <!-- 过滤器 -->
+    <div class="filter-section">
+      <label for="categoryFilter">按分类筛选:</label>
+      <select id="categoryFilter">
+        <option value="">全部</option>
+        <option value="风景">风景摄影</option>
+        <option value="人像">人像摄影</option>
+        <option value="静物">静物摄影</option>
+        <option value="生活">生活记录</option>
+        <option value="课堂">课堂瞬间</option>
+        <option value="其他">其他</option>
+      </select>
+      
+      <label for="typeFilter">按类型筛选:</label>
+      <select id="typeFilter">
+        <option value="">全部</option>
+        <option value="image">图片</option>
+        <option value="video">视频</option>
+      </select>
+      
+      <button id="clearFilter" class="view-btn">清除筛选</button>
+    </div>
+
+    <!-- 媒体库 -->
+    <div id="gallery" class="gallery">
+      <!-- 媒体卡片将通过JavaScript动态添加 -->
+    </div>
+
+    <!-- 空状态 -->
+    <div id="emptyState" class="empty-state" style="display: none;">
+      <p>还没有上传任何照片或视频</p>
+      <p>点击上方的上传按钮开始添加您的作品吧！</p>
+    </div>
+
+    <a href="1.html" class="back-link">返回首页</a>
+  </div>
+
+  <button id="logoutBtn" class="logout-btn">退出登录</button>
+
+  <!-- 模态框 -->
+  <div id="modal" class="modal">
+    <button id="modalClose" class="modal-close">&times;</button>
+    <div class="modal-content">
+      <img id="modalImage" class="modal-media" style="display: none;">
+      <video id="modalVideo" class="modal-media" controls style="display: none;"></video>
+      <div class="modal-info">
+        <h3 id="modalTitle"></h3>
+        <p id="modalCategory" class="media-category"></p>
+        <p id="modalDescription"></p>
+        <p id="modalDate"></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 通知 -->
+  <div id="notification" class="notification"></div>
+
+  <footer>
+    <div>
+      <div>© 2025 昇之家</div>
+      <div>联系：<a href="mailto:example@example.com">example@example.com</a></div>
+    </div>
+  </footer>
+
+  <script>
+    // 检查登录状态
+    document.addEventListener('DOMContentLoaded', function() {
+      const userType = localStorage.getItem('userType');
+      
+      // 如果未登录，重定向到登录页面
+      if (!userType) {
+        window.location.href = 'login.html';
+      }
+      
+      // 如果是游客模式，隐藏上传区域
+      if (userType === 'visitor') {
+        const uploadSection = document.querySelector('.upload-section');
+        if (uploadSection) {
+          uploadSection.style.display = 'none';
+        }
+      }
+      
+      // 初始化媒体库
+      initMediaLibrary();
+    });
+    
+    // 存储键名
+    const STORAGE_KEY = 'photography_media';
+    let currentUserType = null;
+    
+    // DOM元素
+    let uploadForm, gallery, emptyState, categoryFilter, typeFilter, 
+        clearFilter, modal, modalClose, modalImage, modalVideo, 
+        modalTitle, modalCategory, modalDescription, modalDate, notification;
+    
+    // 初始化媒体库
+    function initMediaLibrary() {
+      // 获取用户类型
+      currentUserType = localStorage.getItem('userType');
+      
+      // 获取DOM元素
+      uploadForm = document.getElementById('uploadForm');
+      gallery = document.getElementById('gallery');
+      emptyState = document.getElementById('emptyState');
+      categoryFilter = document.getElementById('categoryFilter');
+      typeFilter = document.getElementById('typeFilter');
+      clearFilter = document.getElementById('clearFilter');
+      modal = document.getElementById('modal');
+      modalClose = document.getElementById('modalClose');
+      modalImage = document.getElementById('modalImage');
+      modalVideo = document.getElementById('modalVideo');
+      modalTitle = document.getElementById('modalTitle');
+      modalCategory = document.getElementById('modalCategory');
+      modalDescription = document.getElementById('modalDescription');
+      modalDate = document.getElementById('modalDate');
+      notification = document.getElementById('notification');
+      
+      // 设置事件监听器
+      setupEventListeners();
+      
+      // 加载媒体
+      loadMedia();
+    }
+    
+    // 设置事件监听器
+    function setupEventListeners() {
+      // 上传表单提交
+      uploadForm.addEventListener('submit', handleUpload);
+      
+      // 筛选器变化
+      categoryFilter.addEventListener('change', filterMedia);
+      typeFilter.addEventListener('change', filterMedia);
+      clearFilter.addEventListener('click', clearFilters);
+      
+      // 模态框关闭
+      modalClose.addEventListener('click', closeModal);
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+    }
+    
+    // 处理文件上传
+    function handleUpload(e) {
+      e.preventDefault();
+      
+      const fileInput = document.getElementById('mediaFile');
+      const category = document.getElementById('mediaCategory').value;
+      const title = document.getElementById('mediaTitle').value;
+      const description = document.getElementById('mediaDescription').value;
+      
+      const file = fileInput.files[0];
+      if (!file) {
+        showNotification('请选择文件', 'error');
+        return;
+      }
+      
+      // 检查文件类型
+      const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'video/mp4', 'video/webm'];
+      if (!validTypes.includes(file.type)) {
+        showNotification('不支持的文件类型', 'error');
+        return;
+      }
+      
+      // 检查文件大小 (10MB限制)
+      const maxSize = 10 * 1024 * 1024; // 10MB
+      if (file.size > maxSize) {
+        showNotification('文件大小不能超过10MB', 'error');
+        return;
+      }
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const mediaData = {
+          id: Date.now().toString(),
+          title,
+          category,
+          description,
+          type: file.type.startsWith('image/') ? 'image' : 'video',
+          fileType: file.type,
+          data: e.target.result,
+          date: new Date().toISOString()
+        };
+        
+        // 保存到localStorage
+        saveMedia(mediaData);
+        
+        // 重置表单
+        uploadForm.reset();
+        
+        // 显示成功通知
+        showNotification('上传成功！', 'success');
+      };
+      
+      reader.readAsDataURL(file);
+    }
+    
+    // 保存媒体到localStorage
+    function saveMedia(mediaData) {
+      const mediaList = getMediaList();
+      mediaList.unshift(mediaData); // 添加到开头
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(mediaList));
+      loadMedia();
+    }
+    
+    // 从localStorage获取媒体列表
+    function getMediaList() {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      return stored ? JSON.parse(stored) : [];
+    }
+    
+    // 加载并显示媒体
+    function loadMedia() {
+      const mediaList = getMediaList();
+      
+      // 根据筛选器过滤
+      const filteredMedia = filterMediaList(mediaList);
+      
+      // 清空画廊
+      gallery.innerHTML = '';
+      
+      // 显示空状态或媒体卡片
+      if (filteredMedia.length === 0) {
+        emptyState.style.display = 'block';
+      } else {
+        emptyState.style.display = 'none';
+        filteredMedia.forEach(media => {
+          const card = createMediaCard(media);
+          gallery.appendChild(card);
+        });
+      }
+    }
+    
+    // 创建媒体卡片
+    function createMediaCard(media) {
+      const card = document.createElement('div');
+      card.className = 'media-card';
+      
+      const date = new Date(media.date);
+      const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+      
+      let previewHtml = '';
+      if (media.type === 'image') {
+        previewHtml = `<img src="${media.data}" alt="${media.title}">`;
+      } else {
+        previewHtml = `<video controls poster="${getVideoThumbnail(media)}"><source src="${media.data}" type="${media.fileType}"></video>`;
+      }
+      
+      // 根据用户类型决定是否显示删除按钮
+      const showDeleteButton = currentUserType === 'admin';
+      const actionsHtml = showDeleteButton ? 
+        `<div class="media-actions">
+          <button class="view-btn" data-id="${media.id}">查看</button>
+          <button class="delete-btn" data-id="${media.id}">删除</button>
+        </div>` : 
+        `<div class="media-actions">
+          <button class="view-btn" data-id="${media.id}">查看</button>
+        </div>`;
+      
+      card.innerHTML = `
+        <div class="media-preview">
+          ${previewHtml}
+          <span class="media-type-badge">${media.type === 'image' ? '图片' : '视频'}</span>
+        </div>
+        <div class="media-info">
+          <h3 class="media-title">${media.title}</h3>
+          <p class="media-description">${media.description || '暂无说明'}</p>
+          <div class="media-meta">
+            <div>
+              <span class="media-category">${media.category}</span>
+              <span>${formattedDate}</span>
+            </div>
+            ${actionsHtml}
+          </div>
+        </div>
+      `;
+      
+      // 添加事件监听器
+      card.querySelector('.view-btn').addEventListener('click', () => viewMedia(media));
+      
+      // 只为管理员添加删除按钮的事件监听
+      if (showDeleteButton) {
+        const deleteBtn = card.querySelector('.delete-btn');
+        if (deleteBtn) {
+          deleteBtn.addEventListener('click', () => deleteMedia(media.id));
+        }
+      }
+      
+      return card;
+    }
+    
+    // 获取视频缩略图（简单处理）
+    function getVideoThumbnail(media) {
+      // 在实际应用中，可以使用canvas生成视频缩略图
+      // 这里简单返回一个占位符
+      return media.type === 'video' ? 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 300 200" fill="%23e2e8f0"><rect width="300" height="200" fill="%23e2e8f0"/><text x="150" y="100" font-family="Arial" font-size="20" text-anchor="middle" fill="%2394a3b8">视频预览</text></svg>' : '';
+    }
+    
+    // 查看媒体详情
+    function viewMedia(media) {
+      // 显示模态框
+      modal.style.display = 'flex';
+      
+      // 设置内容
+      modalTitle.textContent = media.title;
+      modalCategory.textContent = media.category;
+      modalDescription.textContent = media.description || '暂无说明';
+      
+      const date = new Date(media.date);
+      const formattedDate = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')} ${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`;
+      modalDate.textContent = formattedDate;
+      
+      // 显示图片或视频
+      if (media.type === 'image') {
+        modalImage.src = media.data;
+        modalImage.style.display = 'block';
+        modalVideo.style.display = 'none';
+      } else {
+        modalVideo.src = media.data;
+        modalVideo.style.display = 'block';
+        modalImage.style.display = 'none';
+      }
+    }
+    
+    // 关闭模态框
+    function closeModal() {
+      modal.style.display = 'none';
+      modalVideo.pause();
+    }
+    
+    // 删除媒体
+    function deleteMedia(id) {
+      if (confirm('确定要删除这个作品吗？')) {
+        const mediaList = getMediaList();
+        const filteredList = mediaList.filter(media => media.id !== id);
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(filteredList));
+        loadMedia();
+        showNotification('删除成功', 'success');
+      }
+    }
+    
+    // 过滤媒体列表
+    function filterMediaList(mediaList) {
+      const category = categoryFilter.value;
+      const type = typeFilter.value;
+      
+      return mediaList.filter(media => {
+        const categoryMatch = !category || media.category === category;
+        const typeMatch = !type || media.type === type;
+        return categoryMatch && typeMatch;
+      });
+    }
+    
+    // 应用筛选
+    function filterMedia() {
+      loadMedia();
+    }
+    
+    // 清除筛选
+    function clearFilters() {
+      categoryFilter.value = '';
+      typeFilter.value = '';
+      loadMedia();
+    }
+    
+    // 显示通知
+    function showNotification(message, type = 'success') {
+      notification.textContent = message;
+      notification.className = `notification ${type} show`;
+      
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
+    }
+    
+    // 添加ESC键关闭模态框
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.style.display === 'flex') {
+        closeModal();
+      }
+    });
+    
+    // 退出登录功能
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+      localStorage.removeItem('userType');
+      window.location.href = 'login.html';
+    });
+  </script>
+</body>
+</html>

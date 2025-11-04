@@ -1,0 +1,1192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文学创作 - 写作中心</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        /* 退出按钮样式 */
+        .logout-btn {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            padding: 10px 20px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            z-index: 9999;
+            transition: background-color 0.3s ease;
+        }
+        
+        .logout-btn:hover {
+            background-color: #c0392b;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* 可调整的导航栏高度 */
+        :root {
+            --nav-height: 80px; /* 修改此值以调整导航栏高度 */
+            --primary-color: #4caf50;
+            --primary-dark: #388e3c;
+            --secondary-color: #f1f8e9;
+            --text-color: #2c3e50;
+            --text-light: #5b6b80;
+            --border-color: #e0e0e0;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 导航栏样式 */
+        .navbar {
+            background-color: #141414;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: var(--nav-height);
+            padding: 0 0; /* 水平内边距由 .container 控制 */
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #2c3e50;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo-icon {
+            margin-right: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            left: 150px; /* 距离左侧50px */
+        }
+
+        .logo-icon img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: contain;
+        }
+        
+        .brand-name {
+            color: #ffffff; /* 绿色 */
+            font-size: 30px;
+            font-family: 'ZiHun86', "Microsoft YaHei", sans-serif;/* 字体 */
+            text-decoration: none;
+            position: absolute;
+            left: 210px; /* 距离左侧50px */
+            font-weight: 500;
+        }
+
+        /* 右侧导航整体向右偏移 150px（桌面） */
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            position: absolute;
+            right: 150px; /* 距离右侧 150px */
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        .nav-item {
+            margin-left: 30px;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: #b1b1b1;
+            font-weight: 500;
+            font-size: 16px;
+            transition: color 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+            font-weight: normal;
+        }
+        
+        .nav-link:hover {
+            color: #ffffff;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #3498db;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .nav-link.active {
+            color: #3498db;
+        }
+        
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        /* 写作中心容器 */
+        .writing-center {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+
+        /* 页面标题 */
+        .page-header {
+            padding: 30px 40px;
+            background: linear-gradient(135deg, var(--secondary-color) 0%, #ffffff 100%);
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .page-title {
+            font-size: 32px;
+            color: var(--text-color);
+            margin-bottom: 10px;
+            font-weight: 500;
+        }
+
+        .page-subtitle {
+            font-size: 16px;
+            color: var(--text-light);
+        }
+
+        /* 创作类型选择 */
+        .creation-type-selector {
+            padding: 30px 40px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .selector-title {
+            font-size: 20px;
+            color: var(--text-color);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .type-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .type-tab {
+            padding: 12px 24px;
+            background: #f8f9fa;
+            border: 2px solid transparent;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+
+        .type-tab.active {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-dark);
+        }
+
+        .type-tab:hover:not(.active) {
+            background: var(--secondary-color);
+            border-color: var(--primary-color);
+        }
+
+        /* 创作表单 */
+        .creation-form {
+            padding: 30px 40px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-color);
+            font-size: 16px;
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+            background: #ffffff;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+        }
+
+        .form-textarea {
+            min-height: 300px;
+            resize: vertical;
+            font-family: inherit;
+            line-height: 1.6;
+        }
+
+        /* 特定创作类型的表单样式 */
+        .type-form {
+            display: none;
+        }
+
+        .type-form.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 提示文字 */
+        .form-hint {
+            font-size: 14px;
+            color: var(--text-light);
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        /* 操作按钮 */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #f8f9fa;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        .btn-icon {
+            margin-right: 8px;
+        }
+
+        /* 保存成功提示 */
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 15px 20px;
+            border-radius: 6px;
+            border: 1px solid #c3e6cb;
+            margin-bottom: 20px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 预览区域 */
+        .preview-section {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid var(--border-color);
+        }
+
+        .preview-title {
+            font-size: 20px;
+            color: var(--text-color);
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .preview-container {
+            background: #f8f9fa;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 20px;
+            min-height: 200px;
+            transition: all 0.3s ease;
+        }
+
+        .preview-container.empty {
+            color: var(--text-light);
+            font-style: italic;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        /* 底部导航 */
+        .bottom-nav {
+            padding: 30px 40px;
+            background: #f8f9fa;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .nav-info {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+        /* 作品列表 */
+        .works-list {
+            margin-top: 30px;
+        }
+
+        .works-title {
+            font-size: 18px;
+            color: var(--text-color);
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .work-item {
+            background: #f8f9fa;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .work-item:hover {
+            background: var(--secondary-color);
+            transform: translateX(5px);
+        }
+
+        .work-info {
+            flex: 1;
+        }
+
+        .work-name {
+            font-weight: 500;
+            color: var(--text-color);
+            margin-bottom: 5px;
+        }
+
+        .work-meta {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+
+        .work-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 5px 12px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #6c757d;
+            color: white;
+        }
+
+        .action-btn.edit {
+            background: #007bff;
+        }
+
+        .action-btn.delete {
+            background: #dc3545;
+        }
+
+        .action-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: static;
+                transform: none;
+                justify-content: center;
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                height: auto;
+                padding: 20px 0;
+            }
+
+            .logo-icon,
+            .brand-name {
+                position: static;
+            }
+
+            .writing-center {
+                margin: 20px;
+            }
+
+            .page-header,
+            .creation-type-selector,
+            .creation-form,
+            .bottom-nav {
+                padding: 20px;
+            }
+
+            .type-tabs {
+                flex-direction: column;
+            }
+
+            .type-tab {
+                text-align: center;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .bottom-nav {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+
+        @font-face {
+            font-family: 'ZiHun86';
+            src: url('../fonts/字魂86号-杨任东楷书.woff2') format('woff2'),
+                 url('../fonts/字魂86号-杨任东楷书.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+            font-display: swap;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="1.html" class="logo">
+                <span class="logo-icon">
+                    <img src="images/logo.png" alt="昇哥数学 logo">
+                </span>
+                <span class="brand-name">昇之家</span>
+            </a>
+            
+            <ul class="nav-menu">
+                <li class="nav-item">
+                    <a href="1.html#news" class="nav-link">最新动态</a>
+                </li>
+                <li class="nav-item">
+                    <a href="1.html#hobbys" class="nav-link active">我的爱好</a>
+                </li>
+                <li class="nav-item">
+                    <a href="1.html#events" class="nav-link">日记心得</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- 主要内容 -->
+    <div class="container">
+        <div class="writing-center">
+            <!-- 页面标题 -->
+            <div class="page-header">
+                <h1 class="page-title">文学创作中心</h1>
+                <p class="page-subtitle">在这里，你可以创作、编辑和管理你的文学作品</p>
+            </div>
+            
+            <!-- 创作类型选择器 -->
+            <div class="creation-type-selector">
+                <h2 class="selector-title">选择创作类型</h2>
+                <div class="type-tabs">
+                    <div class="type-tab active" data-type="prose">✍️ 散文创作</div>
+                    <div class="type-tab" data-type="novel">📚 小说创作</div>
+                    <div class="type-tab" data-type="poetry">📜 诗歌创作</div>
+                </div>
+            </div>
+            
+            <!-- 创作表单 -->
+            <div class="creation-form">
+                <!-- 成功保存提示 -->
+                <div class="success-message" id="successMessage">
+                    <strong>保存成功！</strong> 您的作品已保存到本地存储中。
+                </div>
+                
+                <!-- 散文创作表单 -->
+                <div class="type-form active" id="proseForm">
+                    <div class="form-group">
+                        <label for="proseTitle" class="form-label">散文标题</label>
+                        <input type="text" id="proseTitle" class="form-input" placeholder="请输入散文标题">
+                        <div class="form-hint">一个引人入胜的标题可以更好地吸引读者</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="proseCategory" class="form-label">分类</label>
+                        <input type="text" id="proseCategory" class="form-input" placeholder="例如：随笔、游记、感悟等">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="proseContent" class="form-label">散文内容</label>
+                        <textarea id="proseContent" class="form-textarea" placeholder="在这里写下你的散文..."></textarea>
+                        <div class="form-hint">散文注重情感表达和真实体验，可以自由发挥</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="proseTags" class="form-label">标签</label>
+                        <input type="text" id="proseTags" class="form-input" placeholder="多个标签用逗号分隔，例如：生活,感悟,教育">
+                    </div>
+                </div>
+                
+                <!-- 小说创作表单 -->
+                <div class="type-form" id="novelForm">
+                    <div class="form-group">
+                        <label for="novelTitle" class="form-label">小说标题</label>
+                        <input type="text" id="novelTitle" class="form-input" placeholder="请输入小说标题">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="novelChapter" class="form-label">章节标题</label>
+                        <input type="text" id="novelChapter" class="form-input" placeholder="例如：第一章、第二节等">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="novelGenre" class="form-label">小说类型</label>
+                        <input type="text" id="novelGenre" class="form-input" placeholder="例如：教育小说、短篇小说、成长故事等">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="novelContent" class="form-label">小说内容</label>
+                        <textarea id="novelContent" class="form-textarea" placeholder="在这里写下你的小说章节..."></textarea>
+                        <div class="form-hint">小说创作注重情节发展、人物塑造和环境描写</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="novelCharacters" class="form-label">主要人物</label>
+                        <input type="text" id="novelCharacters" class="form-input" placeholder="例如：李明、王老师、小华等">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="novelTags" class="form-label">标签</label>
+                        <input type="text" id="novelTags" class="form-input" placeholder="多个标签用逗号分隔，例如：校园,成长,教育">
+                    </div>
+                </div>
+                
+                <!-- 诗歌创作表单 -->
+                <div class="type-form" id="poetryForm">
+                    <div class="form-group">
+                        <label for="poetryTitle" class="form-label">诗歌标题</label>
+                        <input type="text" id="poetryTitle" class="form-input" placeholder="请输入诗歌标题">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="poetryType" class="form-label">诗歌类型</label>
+                        <input type="text" id="poetryType" class="form-input" placeholder="例如：现代诗、古体诗、教育诗等">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="poetryContent" class="form-label">诗歌内容</label>
+                        <textarea id="poetryContent" class="form-textarea" placeholder="在这里写下你的诗歌..."></textarea>
+                        <div class="form-hint">诗歌创作注重意象、韵律和情感的凝练表达</div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="poetryTheme" class="form-label">主题</label>
+                        <input type="text" id="poetryTheme" class="form-input" placeholder="例如：教育、自然、生活、理想等">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="poetryTags" class="form-label">标签</label>
+                        <input type="text" id="poetryTags" class="form-input" placeholder="多个标签用逗号分隔，例如：抒情,哲理,教育">
+                    </div>
+                </div>
+                
+                <!-- 操作按钮 -->
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="saveButton">
+                        <span class="btn-icon">💾</span> 保存作品
+                    </button>
+                    <button class="btn btn-secondary" id="previewButton">
+                        <span class="btn-icon">👁️</span> 预览作品
+                    </button>
+                    <button class="btn btn-secondary" id="clearButton">
+                        <span class="btn-icon">🗑️</span> 清空内容
+                    </button>
+                </div>
+                
+                <!-- 预览区域 -->
+                <div class="preview-section">
+                    <h3 class="preview-title">作品预览</h3>
+                    <div class="preview-container empty" id="previewContainer">
+                        点击「预览作品」按钮查看预览效果
+                    </div>
+                </div>
+                
+                <!-- 已保存作品列表 -->
+                <div class="works-list">
+                    <h3 class="works-title">已保存作品</h3>
+                    <div id="worksList">
+                        <!-- 作品列表将通过JavaScript动态生成 -->
+                        <div class="work-item">
+                            <div class="work-info">
+                                <div class="work-name">暂未保存任何作品</div>
+                                <div class="work-meta">开始创作并保存你的第一个作品</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 底部导航 -->
+            <div class="bottom-nav">
+                <div class="nav-info">
+                    💡 提示：所有作品将保存在本地存储中，刷新页面不会丢失
+                </div>
+                <a href="hobby-4.html" class="btn btn-secondary">
+                    <span class="btn-icon">🏠</span> 返回文学创作主页
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM元素引用
+        const typeTabs = document.querySelectorAll('.type-tab');
+        const typeForms = document.querySelectorAll('.type-form');
+        const saveButton = document.getElementById('saveButton');
+        const previewButton = document.getElementById('previewButton');
+        const clearButton = document.getElementById('clearButton');
+        const successMessage = document.getElementById('successMessage');
+        const previewContainer = document.getElementById('previewContainer');
+        const worksList = document.getElementById('worksList');
+        
+        // 当前激活的创作类型
+        let activeType = 'prose';
+        
+        // 示例作品数据
+        let worksData = [];
+        
+        // 初始化：从本地存储加载作品数据
+        function init() {
+            const savedWorks = localStorage.getItem('literaryWorks');
+            if (savedWorks) {
+                worksData = JSON.parse(savedWorks);
+                renderWorksList();
+            }
+        }
+        
+        // 切换创作类型
+        function switchType(type) {
+            activeType = type;
+            
+            // 更新标签状态
+            typeTabs.forEach(tab => {
+                if (tab.dataset.type === type) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+            
+            // 更新表单显示
+            typeForms.forEach(form => {
+                if (form.id === `${type}Form`) {
+                    form.classList.add('active');
+                } else {
+                    form.classList.remove('active');
+                }
+            });
+        }
+        
+        // 保存作品
+        function saveWork() {
+            let title, content, category, tags, otherFields = {};
+            
+            switch(activeType) {
+                case 'prose':
+                    title = document.getElementById('proseTitle').value.trim();
+                    content = document.getElementById('proseContent').value.trim();
+                    category = document.getElementById('proseCategory').value.trim();
+                    tags = document.getElementById('proseTags').value.trim();
+                    
+                    if (!title || !content) {
+                        alert('请填写标题和内容！');
+                        return;
+                    }
+                    
+                    otherFields = {
+                        category: category,
+                        tags: tags.split(',').map(tag => tag.trim()).filter(tag => tag)
+                    };
+                    break;
+                    
+                case 'novel':
+                    title = document.getElementById('novelTitle').value.trim();
+                    content = document.getElementById('novelContent').value.trim();
+                    category = document.getElementById('novelGenre').value.trim();
+                    tags = document.getElementById('novelTags').value.trim();
+                    
+                    if (!title || !content) {
+                        alert('请填写标题和内容！');
+                        return;
+                    }
+                    
+                    otherFields = {
+                        chapter: document.getElementById('novelChapter').value.trim(),
+                        genre: category,
+                        characters: document.getElementById('novelCharacters').value.trim(),
+                        tags: tags.split(',').map(tag => tag.trim()).filter(tag => tag)
+                    };
+                    break;
+                    
+                case 'poetry':
+                    title = document.getElementById('poetryTitle').value.trim();
+                    content = document.getElementById('poetryContent').value.trim();
+                    category = document.getElementById('poetryType').value.trim();
+                    tags = document.getElementById('poetryTags').value.trim();
+                    
+                    if (!title || !content) {
+                        alert('请填写标题和内容！');
+                        return;
+                    }
+                    
+                    otherFields = {
+                        poetryType: category,
+                        theme: document.getElementById('poetryTheme').value.trim(),
+                        tags: tags.split(',').map(tag => tag.trim()).filter(tag => tag)
+                    };
+                    break;
+            }
+            
+            // 创建作品对象
+            const work = {
+                id: Date.now(), // 使用时间戳作为唯一ID
+                type: activeType,
+                typeName: getTypeName(activeType),
+                title: title,
+                content: content,
+                createTime: new Date().toLocaleString(),
+                updateTime: new Date().toLocaleString(),
+                ...otherFields
+            };
+            
+            // 添加到作品数据中
+            worksData.push(work);
+            
+            // 保存到本地存储
+            saveToLocalStorage();
+            
+            // 更新作品列表
+            renderWorksList();
+            
+            // 显示成功消息
+            successMessage.style.display = 'block';
+            setTimeout(() => {
+                successMessage.style.display = 'none';
+            }, 3000);
+            
+            // 清空表单
+            clearForm();
+        }
+        
+        // 预览作品
+        function previewWork() {
+            let title, content;
+            
+            switch(activeType) {
+                case 'prose':
+                    title = document.getElementById('proseTitle').value.trim();
+                    content = document.getElementById('proseContent').value.trim();
+                    break;
+                case 'novel':
+                    title = document.getElementById('novelTitle').value.trim();
+                    const chapter = document.getElementById('novelChapter').value.trim();
+                    content = document.getElementById('novelContent').value.trim();
+                    title = chapter ? `${title} - ${chapter}` : title;
+                    break;
+                case 'poetry':
+                    title = document.getElementById('poetryTitle').value.trim();
+                    content = document.getElementById('poetryContent').value.trim();
+                    break;
+            }
+            
+            if (!title && !content) {
+                previewContainer.innerHTML = '暂无可预览内容，请先输入作品标题和内容';
+                previewContainer.classList.add('empty');
+                return;
+            }
+            
+            previewContainer.classList.remove('empty');
+            
+            // 格式化内容显示
+            let formattedContent = '';
+            if (activeType === 'poetry') {
+                // 诗歌格式化：保留换行
+                formattedContent = content.split('\n')
+                    .map(line => line.trim())
+                    .filter(line => line)
+                    .map(line => `<p style="text-align: center; margin-bottom: 10px; font-style: italic;">${line}</p>`)
+                    .join('');
+            } else {
+                // 散文和小说格式化：段落处理
+                formattedContent = content.split('\n')
+                    .map(paragraph => paragraph.trim())
+                    .filter(paragraph => paragraph)
+                    .map(paragraph => `<p style="margin-bottom: 15px; text-indent: 2em;">${paragraph}</p>`)
+                    .join('');
+            }
+            
+            previewContainer.innerHTML = `
+                <div style="margin-bottom: 20px;">
+                    <h3 style="color: var(--text-color); margin-bottom: 10px; font-size: 22px;">${title || '未命名作品'}</h3>
+                    <div style="color: var(--text-light); font-size: 14px; margin-bottom: 20px;">
+                        类型：${getTypeName(activeType)} | 预览时间：${new Date().toLocaleString()}
+                    </div>
+                </div>
+                <div style="line-height: 1.8; color: var(--text-color);">
+                    ${formattedContent || '<p style="color: var(--text-light); font-style: italic;">内容为空</p>'}
+                </div>
+            `;
+        }
+        
+        // 清空表单
+        function clearForm() {
+            const currentForm = document.getElementById(`${activeType}Form`);
+            const inputs = currentForm.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                input.value = '';
+            });
+            
+            // 清空预览
+            previewContainer.innerHTML = '点击「预览作品」按钮查看预览效果';
+            previewContainer.classList.add('empty');
+        }
+        
+        // 渲染作品列表
+        function renderWorksList() {
+            if (worksData.length === 0) {
+                worksList.innerHTML = `
+                    <div class="work-item">
+                        <div class="work-info">
+                            <div class="work-name">暂未保存任何作品</div>
+                            <div class="work-meta">开始创作并保存你的第一个作品</div>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+            
+            // 按更新时间倒序排序
+            const sortedWorks = [...worksData].sort((a, b) => {
+                return new Date(b.updateTime) - new Date(a.updateTime);
+            });
+            
+            worksList.innerHTML = sortedWorks.map(work => `
+                <div class="work-item" data-id="${work.id}">
+                    <div class="work-info">
+                        <div class="work-name">${work.title}</div>
+                        <div class="work-meta">
+                            ${work.typeName} | 更新时间：${work.updateTime}
+                            ${work.tags && work.tags.length > 0 ? 
+                                `<br>标签：${work.tags.join('、')}` : ''}
+                        </div>
+                    </div>
+                    <div class="work-actions">
+                        <button class="action-btn edit" onclick="editWork(${work.id})"><span>📝</span></button>
+                        <button class="action-btn delete" onclick="deleteWork(${work.id})"><span>🗑️</span></button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // 编辑作品
+        function editWork(id) {
+            const work = worksData.find(w => w.id === id);
+            if (!work) return;
+            
+            // 切换到对应类型
+            switchType(work.type);
+            
+            // 填充表单数据
+            switch(work.type) {
+                case 'prose':
+                    document.getElementById('proseTitle').value = work.title;
+                    document.getElementById('proseContent').value = work.content;
+                    document.getElementById('proseCategory').value = work.category || '';
+                    document.getElementById('proseTags').value = work.tags ? work.tags.join(', ') : '';
+                    break;
+                    
+                case 'novel':
+                    document.getElementById('novelTitle').value = work.title;
+                    document.getElementById('novelChapter').value = work.chapter || '';
+                    document.getElementById('novelContent').value = work.content;
+                    document.getElementById('novelGenre').value = work.genre || '';
+                    document.getElementById('novelCharacters').value = work.characters || '';
+                    document.getElementById('novelTags').value = work.tags ? work.tags.join(', ') : '';
+                    break;
+                    
+                case 'poetry':
+                    document.getElementById('poetryTitle').value = work.title;
+                    document.getElementById('poetryContent').value = work.content;
+                    document.getElementById('poetryType').value = work.poetryType || '';
+                    document.getElementById('poetryTheme').value = work.theme || '';
+                    document.getElementById('poetryTags').value = work.tags ? work.tags.join(', ') : '';
+                    break;
+            }
+            
+            // 滚动到表单顶部
+            document.querySelector('.creation-form').scrollIntoView({ behavior: 'smooth' });
+            
+            // 删除原作品（稍后将以更新形式重新保存）
+            deleteWork(id, false);
+        }
+        
+        // 删除作品
+        function deleteWork(id, showAlert = true) {
+            if (showAlert && !confirm('确定要删除这个作品吗？此操作不可恢复。')) {
+                return;
+            }
+            
+            worksData = worksData.filter(work => work.id !== id);
+            saveToLocalStorage();
+            renderWorksList();
+        }
+        
+        // 保存到本地存储
+        function saveToLocalStorage() {
+            localStorage.setItem('literaryWorks', JSON.stringify(worksData));
+            
+            // 触发多种方式的通知，确保hobby-4.html能接收到更新
+            // 1. 通知打开的窗口
+            if (window.opener) {
+                window.opener.postMessage({type: 'worksUpdated'}, '*');
+            }
+            
+            // 2. 通知父窗口（如果在iframe中）
+            if (window.parent && window.parent !== window) {
+                window.parent.postMessage({type: 'worksUpdated'}, '*');
+            }
+            
+            // 3. 使用BroadcastChannel API（现代浏览器支持）
+            try {
+                const channel = new BroadcastChannel('literaryWorksChannel');
+                channel.postMessage({type: 'worksUpdated'});
+                channel.close();
+            } catch (e) {
+                console.log('BroadcastChannel not supported');
+            }
+            
+            // 4. 记录最后更新时间，方便其他页面轮询检测
+            localStorage.setItem('lastWorksUpdate', Date.now().toString());
+        }
+        
+        // 获取类型名称
+        function getTypeName(type) {
+            const typeNames = {
+                'prose': '散文',
+                'novel': '小说',
+                'poetry': '诗歌'
+            };
+            return typeNames[type] || type;
+        }
+        
+        // 事件监听器
+        typeTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                switchType(tab.dataset.type);
+            });
+        });
+        
+        saveButton.addEventListener('click', saveWork);
+        previewButton.addEventListener('click', previewWork);
+        clearButton.addEventListener('click', clearForm);
+        
+        // 暴露函数到全局，供HTML中使用
+        window.editWork = editWork;
+        window.deleteWork = deleteWork;
+        
+        // 初始化页面
+        init();
+        
+        // 添加消息监听器，接收来自其他页面的请求
+        window.addEventListener('message', function(event) {
+            if (event.data && event.data.type === 'getWorks') {
+                if (event.source) {
+                    event.source.postMessage({type: 'worksData', data: worksData}, event.origin);
+                }
+            }
+            
+            // 接收刷新作品列表的请求
+            if (event.data && event.data.type === 'refreshWorks') {
+                init(); // 重新加载作品数据
+            }
+        });
+        
+        // 尝试使用BroadcastChannel监听作品更新
+        try {
+            const channel = new BroadcastChannel('literaryWorksChannel');
+            channel.addEventListener('message', function(event) {
+                if (event.data && event.data.type === 'worksUpdated') {
+                    init(); // 当有其他页面更新作品时，重新加载
+                }
+            });
+            
+            // 在页面卸载时关闭通道
+            window.addEventListener('beforeunload', function() {
+                channel.close();
+            });
+        } catch (e) {
+            console.log('BroadcastChannel not supported');
+        }
+        
+        // 添加一个函数，用于手动触发作品更新通知（方便调试和测试）
+        window.notifyWorksUpdated = function() {
+            saveToLocalStorage();
+        };
+        
+        // 自动保存功能（每30秒自动预览，模拟自动保存提示）
+        setInterval(() => {
+            // 检查当前表单是否有内容
+            let hasContent = false;
+            const currentForm = document.getElementById(`${activeType}Form`);
+            const inputs = currentForm.querySelectorAll('input, textarea');
+            
+            for (let i = 0; i < inputs.length; i++) {
+                if (inputs[i].value.trim()) {
+                    hasContent = true;
+                    break;
+                }
+            }
+            
+            if (hasContent) {
+                console.log('正在自动保存草稿...');
+            }
+        }, 30000);
+    </script>
+</body>
+    <script>
+        // 登录状态检查
+        document.addEventListener('DOMContentLoaded', function() {
+            // 检查是否已登录
+            const userType = localStorage.getItem('userType');
+            
+            // 如果未登录，重定向到登录页
+            if (!userType) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            // 创建退出登录按钮
+            const logoutBtn = document.createElement('button');
+            logoutBtn.className = 'logout-btn';
+            logoutBtn.textContent = '退出登录';
+            document.body.appendChild(logoutBtn);
+            
+            // 退出登录事件
+            logoutBtn.addEventListener('click', function() {
+                localStorage.removeItem('userType');
+                localStorage.removeItem('isLoggedIn');
+                window.location.href = 'login.html';
+            });
+            
+            // 游客模式权限控制
+            if (userType === 'visitor') {
+                // 隐藏编辑、保存和删除按钮
+                const editButtons = document.querySelectorAll('.edit-btn, .save-btn, .delete-btn');
+                editButtons.forEach(btn => {
+                    btn.style.display = 'none';
+                });
+                
+                // 隐藏所有表单
+                const forms = document.querySelectorAll('form');
+                forms.forEach(form => {
+                    form.style.display = 'none';
+                });
+            }
+        });
+    </script>
+</html>
